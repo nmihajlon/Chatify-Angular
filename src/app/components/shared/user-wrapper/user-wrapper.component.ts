@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
+import { User } from '../../../../model/user.model';
 
 @Component({
   selector: 'app-user-wrapper',
@@ -7,5 +8,5 @@ import { Component } from '@angular/core';
   styleUrl: './user-wrapper.component.css'
 })
 export class UserWrapperComponent {
-
-}
+  user = input.required<User>();
+} 
