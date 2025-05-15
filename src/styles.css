@@ -1,0 +1,13 @@
+/* You can add global styles to this file, and also import other style files */
+@import "tailwindcss";
+
+*{
+    box-sizing: border-box;
+}
+
+@theme {
+  --color-chatify: #1A1C20;
+  --color-chatify-bg: #20232B;
+  --color-chatify-text: #636575;
+  --color-selected-user: #23242A;
+}
