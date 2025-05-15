@@ -17,6 +17,11 @@ export class UserService {
     return this._selectedUser.asReadonly();
   }
 
+  getUser(userId: string | null) {
+    if (!userId) return null;
+    return this._users().find(u => u.id === userId) ?? null;
+  }
+
   loadUsers() {
     this._users.set(USERS);
   }

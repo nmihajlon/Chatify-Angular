@@ -8,11 +8,7 @@ import { UserService } from '../../../service/user.service';
   templateUrl: './user-list.component.html',
   styleUrl: './user-list.component.css'
 })
-export class UserListComponent implements OnInit {
+export class UserListComponent{
   private userService = inject(UserService);
   users = this.userService.users;
-
-  ngOnInit() {
-    this.userService.loadUsers();
-  }
 }
