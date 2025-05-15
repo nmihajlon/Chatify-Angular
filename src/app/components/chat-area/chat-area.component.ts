@@ -7,7 +7,10 @@ import { ChatFooterComponent } from './chat-footer/chat-footer.component';
   selector: 'app-chat-area',
   imports: [ChatHeaderComponent, ChatBodyComponent, ChatFooterComponent],
   templateUrl: './chat-area.component.html',
-  styleUrl: './chat-area.component.css'
+  styleUrl: './chat-area.component.css',
+  host: {
+    class: 'relative'
+  }
 })
 export class ChatAreaComponent {
 

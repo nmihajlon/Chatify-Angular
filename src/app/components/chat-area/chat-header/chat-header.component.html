@@ -1,4 +1,4 @@
-<header class="p-6">
+<header class="p-3">
   <div class="flex flex-row justify-between w-full mb-3">
     <section>
         <div class="relative">
@@ -12,9 +12,9 @@
         {{user()?.name}}
       </section>
       <section class="flex felx-row gap-3 items-center">
-        <button class="bg-[#26C282] rounded-full size-8"><i class="pi pi-phone text-[#1C2228]"></i></button>
-        <button class="bg-[#383B47] rounded-full size-8 text-[#585B66]" (click)="closeChat()"><i class="pi pi-times"></i></button>
-        <button class="size-8 text-[#585B66]"><i class="pi pi-ellipsis-h"></i></button>
+        <button class="bg-[#26C282] rounded-full size-8 cursor-pointer"><i class="pi pi-phone text-[#1C2228]"></i></button>
+        <button class="bg-[#383B47] rounded-full size-8 text-[#585B66] cursor-pointer" (click)="closeChat()"><i class="pi pi-times"></i></button>
+        <button class="size-8 text-[#585B66] cursor-pointer"><i class="pi pi-ellipsis-h"></i></button>
       </section>
     </div>
     <div class="border-1 border-[#232630]"></div>
