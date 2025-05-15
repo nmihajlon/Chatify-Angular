@@ -1,18 +1,17 @@
 import { Component, inject } from '@angular/core';
 import { ChatAreaComponent } from "../../components/chat-area/chat-area.component";
-import { UserInfoComponent } from "../../components/user-info/user-info.component";
 import { ChatInfoService } from '../../../service/chat-info.service';
 import {
   trigger,
   transition,
   style,
   animate,
-  state
 } from '@angular/animations';
+import { ChatInfoComponent } from "../../components/chat-area/chat-info/chat-info.component";
 
 @Component({
   selector: 'app-chat-page',
-  imports: [ChatAreaComponent, UserInfoComponent],
+  imports: [ChatAreaComponent, ChatInfoComponent],
   templateUrl: './chat-page.component.html',
   styleUrl: './chat-page.component.css',
   host: {
