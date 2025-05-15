@@ -1,7 +1,6 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { UserWrapperComponent } from "../shared/user-wrapper/user-wrapper.component";
-import { User } from '../../../model/user.model';
-import { USERS } from '../../../mocks/user.mock';
+import { UserService } from '../../../service/user.service';
 
 @Component({
   selector: 'app-user-list',
@@ -10,10 +9,10 @@ import { USERS } from '../../../mocks/user.mock';
   styleUrl: './user-list.component.css'
 })
 export class UserListComponent implements OnInit {
-  users = signal<User[]>([]);
+  private userService = inject(UserService);
+  users = this.userService.users;
 
-  ngOnInit(){
-    this.users.set(USERS);
-    console.log(this.users());
+  ngOnInit() {
+    this.userService.loadUsers();
   }
 }
