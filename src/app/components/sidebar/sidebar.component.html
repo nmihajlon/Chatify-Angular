@@ -1,10 +1,21 @@
-<header class="py-3 flex flex-col gap-4">
-  <span
-    (click)="navigateHome()" 
-    class="text-chatify-text font-logo text-5xl monoton-regular select-none"
-    >CHATIFY</span
-  >
-  <search-bar class=""></search-bar>
-</header>
+<section class="py-3 flex flex-col gap-4">
+  <header class="flex flex-col gap-4">
+    <span
+      (click)="navigateHome()" 
+      class="text-chatify-text font-logo text-5xl monoton-regular select-none"
+      >CHATIFY</span
+    >
+    <search-bar></search-bar>
+  </header>
 
-<app-user-list></app-user-list>
+  <div class="flex flex-row justify-between text-chatify-text">
+    <div>
+      Chats
+    </div>
+    <div>
+      14
+    </div>
+  </div>
+  
+  <app-user-list></app-user-list>
+</section>

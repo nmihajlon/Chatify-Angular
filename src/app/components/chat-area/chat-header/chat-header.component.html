@@ -8,7 +8,10 @@
             ></div>
           </div>
       </section>
-      <section class="text-white">
+      <section 
+      (click)="openChatInto()"
+      class="text-white flex items-center font-semibold select-none cursor-pointer"
+      >
         {{user()?.name}}
       </section>
       <section class="flex felx-row gap-3 items-center">

@@ -1,6 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { SidebarComponent } from "../../components/sidebar/sidebar.component";
-import { RouterOutlet } from '@angular/router';
+import { ActivatedRoute, RouterOutlet } from '@angular/router';
 import { UserService } from '../../../service/user.service';
 import { EmptyScreenComponent } from '../../components/empty-screen/empty-screen.component';
 
@@ -12,10 +12,17 @@ import { EmptyScreenComponent } from '../../components/empty-screen/empty-screen
 })
 export class HomePageComponent {
   private userService = inject(UserService);
+  private activatedRouter = inject(ActivatedRoute);
   selectedUser = this.userService.selectedUser;
 
 
-  ngOnInit(){
+  ngOnInit() {
     this.userService.loadUsers();
+  
+    const childRoute = this.activatedRouter.firstChild;
+    const userId = childRoute?.snapshot.paramMap.get('userId') ?? null;
+    const user = this.userService.getUser(userId);
+    this.userService.setSelectedUser(user);
   }
+  
 }

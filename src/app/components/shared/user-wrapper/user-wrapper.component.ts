@@ -1,12 +1,13 @@
 import { Component, inject, input } from '@angular/core';
 import { User } from '../../../../model/user.model';
 import { UserService } from '../../../../service/user.service';
-import { Router, RouterLink } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
   selector: 'app-user-wrapper',
   templateUrl: './user-wrapper.component.html',
-  styleUrl: './user-wrapper.component.css'
+  styleUrl: './user-wrapper.component.css',
+  imports: [RouterLink, RouterLinkActive]
 })
 export class UserWrapperComponent {
   user = input.required<User>();
@@ -15,6 +16,6 @@ export class UserWrapperComponent {
 
   selectUser(){
     this.userService.setSelectedUser(this.user());
-    this.router.navigate(['./', this.user().id])
+    // this.router.navigate(['./', this.user().id])
   }
 } 
