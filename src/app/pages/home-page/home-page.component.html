@@ -1,18 +1,7 @@
 <section class="flex flex-row bg-chatify-bg w-full h-screen">
-  <section class="w-1/5 bg-chatify rounded-xl m-3 p-4">
-    <header>
-        <div>Logo</div>
-        <div>Search</div>
-    </header>
+  <app-sidebar class="w-1/5 bg-chatify rounded-xl m-3 mr-0 p-4"/>
+  
+  <app-chat-area class="flex-1 bg-chatify rounded-xl m-3 mr-0"></app-chat-area>
 
-    <app-user-wrapper></app-user-wrapper>
-    <app-user-wrapper></app-user-wrapper>
-    <app-user-wrapper></app-user-wrapper>
-    <app-user-wrapper></app-user-wrapper>
-  </section>
-  <section class="flex-1 bg-chatify rounded-xl m-3">Selected chat</section>
-
-  <section class="w-1/5 bg-chatify rounded-xl m-3">
-    user info
-  </section>
+  <app-user-info class="w-1/5 bg-chatify rounded-xl m-3"></app-user-info>
 </section>

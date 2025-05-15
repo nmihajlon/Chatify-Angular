@@ -1,5 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Monoton&display=swap');
 @import "tailwindcss";
+@import "primeicons/primeicons.css";
 
 *{
     box-sizing: border-box;
@@ -10,4 +12,12 @@
   --color-chatify-bg: #20232B;
   --color-chatify-text: #636575;
   --color-selected-user: #23242A;
+
+  --font-logo: "Bebas Neue", sans-serif; 
+}
+
+.monoton-regular {
+  font-family: "Monoton", sans-serif;
+  font-weight: 400;
+  font-style: normal;
 }
