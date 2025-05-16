@@ -11,11 +11,15 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-mongoose.connect(MONGO_URI)
-  .then(() => {
-    console.log("Database is connected successfully");
-  }).catch(error => { console.log(error); });
+const connectDB = async () => {
+    await mongoose.connect(MONGO_URI);
+    console.log("MongoDB povezan");
+};  
+
+connectDB();
 
 app.listen(PORT, () => {
     console.log(`Server is running on PORT: ${PORT}`);
 });
+
+// RUTE
