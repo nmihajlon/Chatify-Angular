@@ -9,6 +9,7 @@ const MONGO_URI = process.env.MONGO_URI;
 
 const app = express();
 app.use(cors());
+app.use(cookieParser());
 app.use(express.json());
 
 const connectDB = async () => {
