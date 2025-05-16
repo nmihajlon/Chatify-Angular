@@ -21,7 +21,8 @@ const chatSchema = new mongoose.Schema({
   groupAdmin: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
-  }
+  },
+  typingUsers: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }]
 }, { timestamps: true });
 
 export default mongoose.model("Chat", chatSchema);
