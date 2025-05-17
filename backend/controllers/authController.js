@@ -11,6 +11,7 @@ const generateRefreshToken = (id) => {
 };
 
 export const registerUser = async (req, res) => {
+  console.log(req.body)
   const { username, password, email } = req.body;
   const existingUser = await User.findOne({ username });
   if (existingUser) {

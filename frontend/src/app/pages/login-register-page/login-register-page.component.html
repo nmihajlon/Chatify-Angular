@@ -1,0 +1,15 @@
+<section class="w-full h-screen bg-chatify-bg">
+  <div class="flex justify-center items-center h-full">
+    <div
+      class="relative flex flex-row w-[70%] h-[70%] bg-red-300 rounded-xl shadow-2xl"
+    >
+      <div
+        (click)="togglePosition()"
+        [@slideInOut]="position"
+        class="absolute w-[50%] h-full right-0 bg-blue-300 rounded-xl"
+      >
+        <!-- login sadržaj ovde -->
+      </div>
+    </div>
+  </div>
+</section>
