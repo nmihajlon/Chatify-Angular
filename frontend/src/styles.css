@@ -1,5 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
-@import url('https://fonts.googleapis.com/css2?family=Monoton&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Exo:ital,wght@0,100..900;1,100..900&family=Monoton&display=swap');
 @import "tailwindcss";
 @import "primeicons/primeicons.css";
 
@@ -13,7 +13,10 @@
   --color-chatify-text: #636575;
   --color-selected-user: #23242A;
 
-  --font-logo: "Bebas Neue", sans-serif; 
+  --font-logo: "Bebas Neue", sans-serif;
+  --font-login-register: "Exo", sans-serif;
+  
+  --p-floatlabel-focus-color: '#20232B'
 }
 
 .monoton-regular {

@@ -1,0 +1,17 @@
+:host ::ng-deep .p-inputtext:focus {
+  border-color: #3b82f6 !important;
+  box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.25);
+}
+
+:host ::ng-deep label {
+  color: #fff !important;
+}
+
+:host ::ng-deep .p-checkbox-box.p-highlight {
+  background-color: #3b82f6 !important;
+  border-color: #3b82f6 !important;
+}
+
+:host ::ng-deep .p-checkbox-box.p-focus {
+  box-shadow: 0 0 0 3px rgba(11, 74, 175, 0.5) !important;
+}

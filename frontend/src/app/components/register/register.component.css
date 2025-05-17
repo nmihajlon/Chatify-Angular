@@ -1,0 +1,8 @@
+:host ::ng-deep .p-inputtext:focus {
+  border-color: #3b82f6 !important;
+  box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.25);
+}
+
+:host ::ng-deep label {
+  color: #fff !important;
+}
