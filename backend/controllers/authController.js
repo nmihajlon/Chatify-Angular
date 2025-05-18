@@ -11,7 +11,7 @@ const generateRefreshToken = (id) => {
 };
 
 export const registerUser = async (req, res) => {
-  console.log(req.body)
+  console.log(req.body);
   const { username, password, email } = req.body;
   const existingUser = await User.findOne({ username });
   if (existingUser) {
@@ -31,7 +31,7 @@ export const registerUser = async (req, res) => {
 };
 
 export const loginUser = async (req, res) => {
-  const { username, password } = req.body;
+  const { username, password, rememberMe } = req.body;
   const user = await User.findOne({ username });
 
   if (!user || !(await bcrypt.compare(password, user.password))) {
@@ -39,22 +39,26 @@ export const loginUser = async (req, res) => {
   }
 
   const accessToken = generateAccessToken(user._id);
-  const refreshToken = generateRefreshToken(user._id);
 
-  res
-    .cookie("accessToken", accessToken, {
-      httpOnly: true,
-      secure: true,
-      sameSite: "Strict",
-      maxAge: 15 * 60 * 1000,
-    })
-    .cookie("refreshToken", refreshToken, {
+  res.cookie("accessToken", accessToken, {
+    httpOnly: true,
+    secure: true,
+    sameSite: "Strict",
+    maxAge: 15 * 60 * 1000,
+  });
+
+  if (rememberMe) {
+    const refreshToken = generateRefreshToken(user._id);
+
+    res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
       secure: true,
       sameSite: "Strict",
       maxAge: 7 * 24 * 60 * 60 * 1000,
-    })
-    .json({ message: "Successfully login" });
+    });
+  }
+
+  res.json({ message: "Successfully login" });
 };
 
 export const refreshAccessToken = (req, res) => {

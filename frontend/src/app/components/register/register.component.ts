@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { InputTextModule } from 'primeng/inputtext';
+import { AuthService } from '../../../service/auth.service';
 
 function equalValues(val1: string, val2: string){
   return (control: AbstractControl) => {
@@ -22,6 +23,8 @@ function equalValues(val1: string, val2: string){
   styleUrl: './register.component.css'
 })
 export class RegisterComponent {
+  private authService = inject(AuthService);
+
   registerForm = new FormGroup({
     username: new FormControl('', {validators: [Validators.required]}),
     email: new FormControl('', {validators: [Validators.email, Validators.required]}),
@@ -35,6 +38,13 @@ export class RegisterComponent {
   });
 
   onSubmit(){
-    console.log(this.registerForm);
+    console.log(this.registerForm.value);
+    let newUser = {
+      username: this.registerForm.value.username,
+      email: this.registerForm.value.email,
+      password: this.registerForm.value.passwords?.password
+    }
+
+    this.authService.register(newUser).subscribe({});
   }
 }
