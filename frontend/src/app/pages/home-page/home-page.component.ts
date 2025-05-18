@@ -18,12 +18,19 @@ export class HomePageComponent {
   private breakPointObserver = inject(BreakpointObserver);
   selectedUser = this.userService.selectedUser;
   isMdScreen = signal(false);
+  isLgScreen = signal(false);
 
   ngOnInit() {
     this.userService.loadUsers();
   
-    this.breakPointObserver.observe(['(min-width: 768px)', '(max-width: 1024px)']).subscribe(result => {
-        this.isMdScreen.set(result.matches);
+    this.breakPointObserver.observe(['(max-width: 1023.98px)']).subscribe(result => {
+      console.log('isMdScreen', result.matches);
+      this.isMdScreen.set(result.matches);
+    });
+
+    this.breakPointObserver.observe('(min-width: 1024px)').subscribe(result => {
+      console.log('isLgScreen', result.matches);
+      this.isLgScreen.set(result.matches);
     });
 
     const childRoute = this.activatedRouter.firstChild;
@@ -31,8 +38,5 @@ export class HomePageComponent {
     const user = this.userService.getUser(userId);
     this.userService.setSelectedUser(user);
   }
-  
-  showSidebarOnly = computed(() =>
-    this.isMdScreen() && this.selectedUser() === null
-  );
+
 }

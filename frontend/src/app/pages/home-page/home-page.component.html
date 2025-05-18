@@ -1,16 +1,28 @@
 <section class="flex flex-col md:flex-row bg-chatify-bg w-full h-screen">
-  <app-sidenav class=" lg:w-1/28 bg-chatify rounded-xl m-3 mr-0 p-4"></app-sidenav>
-  <app-sidebar
-    class="hidden md:block lg:w-1/5 bg-chatify rounded-xl m-3 mr-0 p-4"
-  />
+  <app-sidenav class="lg:w-1/28 bg-chatify rounded-xl m-3 p-4"></app-sidenav>
 
-  @if(showSidebarOnly()){
-  <app-sidebar class="flex-1 bg-chatify rounded-xl m-3 p-4" />
-  } @else if(selectedUser() === null){
+  @if(isMdScreen()){
+  <!-- <app-sidebar class="relative lg:w-1/6 bg-chatify rounded-xl m-3 p-4" /> -->
+  <!-- <app-empty-screen
+    class="flex flex-1 items-center justify-center m-3 rounded-xl bg-chatify"
+  ></app-empty-screen> -->
+  @if(selectedUser() === null){
+  <app-sidebar class="relative lg:w-1/6 bg-chatify rounded-xl m-3 p-4" />
   <app-empty-screen
     class="flex flex-1 items-center justify-center m-3 rounded-xl bg-chatify"
   ></app-empty-screen>
   } @else {
   <router-outlet></router-outlet>
-  }
+  } 
+  } @else if(isLgScreen()){
+  <app-sidebar class="relative lg:w-1/6 bg-chatify rounded-xl m-3 p-4" />
+  @if(selectedUser() === null){
+  <!-- <app-sidebar class="relative lg:w-1/6 bg-chatify rounded-xl m-3 p-4" /> -->
+  <app-empty-screen
+    class="flex flex-1 items-center justify-center m-3 rounded-xl bg-chatify"
+  ></app-empty-screen>
+  } @else {
+  <router-outlet></router-outlet>
+  } 
+}
 </section>

@@ -8,6 +8,10 @@ import { environment } from "../environtment/environment.develop";
 export class AuthService {
     private httpClient = inject(HttpClient);
 
+    login(user: any){
+      return this.httpClient.post(environment.apiUrl+'auth/login', user);
+    }
+
     register(newUser: any){
       return this.httpClient.post(environment.apiUrl+'auth/register', newUser);
     }

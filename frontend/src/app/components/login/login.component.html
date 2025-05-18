@@ -2,9 +2,9 @@
   class="flex flex-col items-center justify-center bg-chatify h-full text-white w-3/5 mx-auto"
 >
   <h1 class="mb-6 font-login-register font-black text-5xl">Login</h1>
-  <form class="w-full">
+  <form class="w-full" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
     <p-floatlabel variant="in" class="mb-3">
-      <input pInputText id="in_label" autocomplete="off" class="w-full" />
+      <input pInputText id="in_label" autocomplete="off" class="w-full" formControlName="username"/>
       <label for="in_label">Email or username</label>
     </p-floatlabel>
     <p-floatlabel variant="in" class="mb-3">
@@ -14,15 +14,16 @@
         id="in_label"
         autocomplete="off"
         class="w-full"
+        formControlName="password"
       />
       <label for="in_label">Password</label>
     </p-floatlabel>
     <div class="mb-3 flex flex-row items-center">
-      <p-checkbox value="New York" inputId="ny" />
-      <label for="ny" class="ml-2">Remember me</label>
+      <p-checkbox inputId="cb" formControlName="checkbox" [binary]="true"></p-checkbox>
+      <label for="cb" class="ml-2">Remember me</label>
     </div>
     <button
-      type="button"
+      type="submit"
       class="w-full text-white bg-[#050708] transition duration-300 hover:bg-[#050708]/80 focus:ring-4 focus:outline-none focus:ring-[#050708]/50 font-medium rounded-lg text-sm px-5 py-2.5 items-center dark:hover:bg-[#050708]/40 dark:focus:ring-gray-600 me-2 mb-2"
     >
       <i class="pi pi-comments pr-1.5"></i>
