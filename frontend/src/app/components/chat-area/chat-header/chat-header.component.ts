@@ -29,7 +29,7 @@ export class ChatHeaderComponent {
 
   closeChat(){
     this.userService.setSelectedUser(null);
-    this.router.navigate(['../'])
+    this.router.navigate(['../'], {relativeTo: this.activatedRoute});
   }
 
   openChatInto(){

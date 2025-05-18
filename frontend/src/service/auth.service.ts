@@ -9,7 +9,6 @@ export class AuthService {
     private httpClient = inject(HttpClient);
 
     register(newUser: any){
-      console.log(newUser);
       return this.httpClient.post(environment.apiUrl+'auth/register', newUser);
     }
 }

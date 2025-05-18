@@ -6,7 +6,7 @@ import { LoginRegisterPageComponent } from './pages/login-register-page/login-re
 export const routes: Routes = [
     {
         path: '',
-        component: HomePageComponent,
+        component: LoginRegisterPageComponent,
     },
     {
         path: 'chat',
@@ -24,6 +24,6 @@ export const routes: Routes = [
     },
     {
         path: '**',
-        component: LoginRegisterPageComponent
+        component: HomePageComponent
     }
 ];
