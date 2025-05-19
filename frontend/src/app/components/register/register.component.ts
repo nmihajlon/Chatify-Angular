@@ -3,6 +3,7 @@ import { AbstractControl, FormControl, FormGroup, FormsModule, ReactiveFormsModu
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { InputTextModule } from 'primeng/inputtext';
 import { AuthService } from '../../../service/auth.service';
+import { Router } from '@angular/router';
 
 function equalValues(val1: string, val2: string){
   return (control: AbstractControl) => {
@@ -24,6 +25,7 @@ function equalValues(val1: string, val2: string){
 })
 export class RegisterComponent {
   private authService = inject(AuthService);
+  private router = inject(Router);
 
   registerForm = new FormGroup({
     username: new FormControl('', {validators: [Validators.required]}),
@@ -45,6 +47,10 @@ export class RegisterComponent {
       password: this.registerForm.value.passwords?.password
     }
 
-    this.authService.register(newUser).subscribe({});
+    this.authService.register(newUser).subscribe({
+      next: (response) => {
+        this.router.navigate(['/login']);
+      }
+    });
   }
 }

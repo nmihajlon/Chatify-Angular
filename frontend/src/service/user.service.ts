@@ -19,7 +19,7 @@ export class UserService {
 
   getUser(userId: string | null) {
     if (!userId) return null;
-    return this._users().find(u => u.id === userId) ?? null;
+    return this._users().find(u => u._id === userId) ?? null;
   }
 
   loadUsers() {

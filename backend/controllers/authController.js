@@ -42,7 +42,7 @@ export const loginUser = async (req, res) => {
 
   res.cookie("accessToken", accessToken, {
     httpOnly: true,
-    secure: true,
+    secure: false,
     sameSite: "Strict",
     maxAge: 15 * 60 * 1000,
   });
@@ -52,7 +52,7 @@ export const loginUser = async (req, res) => {
 
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
-      secure: true,
+      secure: false,
       sameSite: "Strict",
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
@@ -90,3 +90,8 @@ export const logoutUser = (req, res) => {
     .clearCookie("refreshToken")
     .json({ message: "Odjavljen uspešno." });
 };
+
+export const getUser = async (req, res) => {
+  const user = await User.findById(req.user.id).select("-password");
+  res.json(user);
+}

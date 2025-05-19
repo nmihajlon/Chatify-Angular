@@ -14,19 +14,24 @@ const PORT = process.env.PORT || 7000;
 const MONGO_URI = process.env.MONGO_URI;
 
 const app = express();
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:4200", 
+    credentials: true,
+  })
+);
 app.use(cookieParser());
 app.use(express.json());
 
 const connectDB = async () => {
-    await mongoose.connect(MONGO_URI);
-    console.log("MongoDB povezan");
-};  
+  await mongoose.connect(MONGO_URI);
+  console.log("MongoDB povezan");
+};
 
 connectDB();
 
 app.listen(PORT, () => {
-    console.log(`Server is running on PORT: ${PORT}`);
+  console.log(`Server is running on PORT: ${PORT}`);
 });
 
 app.use("/api/auth", authRoutes);

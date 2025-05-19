@@ -5,6 +5,7 @@ import { UserService } from '../../../service/user.service';
 import { BreakpointObserver,Breakpoints  } from '@angular/cdk/layout';
 import { EmptyScreenComponent } from '../../components/empty-screen/empty-screen.component';
 import { SidenavComponent } from "../../components/sidenav/sidenav.component";
+import { AuthService } from '../../../service/auth.service';
 
 @Component({
   selector: 'app-home-page',
@@ -14,6 +15,7 @@ import { SidenavComponent } from "../../components/sidenav/sidenav.component";
 })
 export class HomePageComponent {
   private userService = inject(UserService);
+  private authService = inject(AuthService);
   private activatedRouter = inject(ActivatedRoute);
   private breakPointObserver = inject(BreakpointObserver);
   selectedUser = this.userService.selectedUser;
@@ -21,6 +23,12 @@ export class HomePageComponent {
   isLgScreen = signal(false);
 
   ngOnInit() {
+    this.authService.getCurrentUser().subscribe({});
+
+    this.authService.currentUser$.subscribe({
+      next: user => console.log(user)
+    });
+    
     this.userService.loadUsers();
   
     this.breakPointObserver.observe(['(max-width: 1023.98px)']).subscribe(result => {
