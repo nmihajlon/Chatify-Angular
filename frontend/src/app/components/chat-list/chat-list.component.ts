@@ -1,10 +1,10 @@
 import { Component, inject } from '@angular/core';
 import { UserService } from '../../../service/user.service';
-import { UserWrapperComponent } from "../shared/user-wrapper/user-wrapper.component";
+import { ChatWrapperComponent } from "./chat-wrapper/chat-wrapper.component";
 
 @Component({
   selector: 'app-chat-list',
-  imports: [UserWrapperComponent],
+  imports: [  ChatWrapperComponent],
   templateUrl: './chat-list.component.html',
   styleUrl: './chat-list.component.css'
 })

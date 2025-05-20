@@ -1,6 +1,6 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { UserWrapperComponent } from "../shared/user-wrapper/user-wrapper.component";
 import { UserService } from '../../../service/user.service';
+import { UserWrapperComponent } from "./user-wrapper/user-wrapper.component";
 
 @Component({
   selector: 'app-user-list',
@@ -12,4 +12,5 @@ export class UserListComponent{
   private userService = inject(UserService);
   users = this.userService.users;
   
+
 }
