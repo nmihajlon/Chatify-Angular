@@ -17,7 +17,6 @@ export const authInterceptor: HttpInterceptorFn = (
   const excludedUrls = [
     '/auth/refresh',
     '/auth/logout',
-    '/auth/me',
     '/auth/login',
   ];
 
@@ -31,10 +30,13 @@ export const authInterceptor: HttpInterceptorFn = (
         !shouldSkip
       ) {
         return authService.refreshToken().pipe(
-          switchMap(() => next(req)),
+          switchMap(() => {
+            // ✔️ Nakon uspešnog refresh-a, samo retry originalni zahtev
+            return next(req);
+          }),
           catchError((refreshErr) => {
-            // Očisti samo stanje, bez dodatnih zahteva!
-            authService.clearSession(); // vidi ispod
+            // ❌ Refresh nije uspeo — briši sesiju i baci grešku
+            authService.clearSession();
             return throwError(() => refreshErr);
           })
         );

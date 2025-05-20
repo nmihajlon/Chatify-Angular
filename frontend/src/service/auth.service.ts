@@ -1,7 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../environtment/environment.develop';
-import { BehaviorSubject, catchError, switchMap, tap, throwError, of } from 'rxjs';
+import {
+  BehaviorSubject,
+  catchError,
+  switchMap,
+  tap,
+  throwError,
+  of,
+} from 'rxjs';
 import { User } from '../model/user.model';
 
 @Injectable({
@@ -9,7 +16,9 @@ import { User } from '../model/user.model';
 })
 export class AuthService {
   private httpClient = inject(HttpClient);
-  private currentUserSubject = new BehaviorSubject<User | null>(null);
+  private currentUserSubject = new BehaviorSubject<User | null | undefined>(
+    undefined
+  );
   currentUser$ = this.currentUserSubject.asObservable();
 
   /**
@@ -39,10 +48,12 @@ export class AuthService {
   getCurrentUser() {
     const user = this.currentUserSubject.value;
 
-    if (user) {
-      return of(user);
-    } else {
+    if (user === undefined) {
+      return throwError(() => new Error('User not resolved yet'));
+    } else if (user === null) {
       return throwError(() => new Error('User is not authenticated'));
+    } else {
+      return of(user);
     }
   }
 

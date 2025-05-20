@@ -1,11 +1,11 @@
 <section class="py-5 px-2 h-full flex flex-row justify-between items-center md:flex-col">
     <div>
-        <button class="text-icon-color hover:text-white">
+        <button class="text-icon-color hover:text-white cursor-pointer">
             <i class="pi pi-comments hover:bg-[#292A2A] p-3 rounded-full transition duration-300"></i>
         </button>   
     </div>
-    <section class="flex flex-row md:flex-col items-center justify-center gap-4 border-t-1 border-icon-color">
-        <button class="text-icon-color hover:text-white mt-4" (click)="logout()">
+    <section class="flex flex-row md:flex-col items-center justify-center gap-4 md:border-t-1 border-icon-color">
+        <button class="text-icon-color hover:text-white mt-4 cursor-pointer" (click)="logout()">
             <i class="pi pi-sign-out hover:bg-[#292A2A] p-3 rounded-full transition duration-300"></i>
         </button>
         <app-avatar [image]="{src: 'users/user-1.jpg', alt: ''}"></app-avatar>
