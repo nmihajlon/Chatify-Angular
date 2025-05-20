@@ -14,25 +14,27 @@ export const authInterceptor: HttpInterceptorFn = (
 ) => {
   const authService = inject(AuthService);
 
+  const excludedUrls = [
+    '/auth/refresh',
+    '/auth/logout',
+    '/auth/me',
+    '/auth/login',
+  ];
+
+  const shouldSkip = excludedUrls.some((url) => req.url.includes(url));
+
   return next(req).pipe(
     catchError((err) => {
-      if (err instanceof HttpErrorResponse && err.status === 401) {
-        // Proveri da li je zahtev već pokušao refresh (da ne uđe u petlju)
-        if (req.url.endsWith('/auth/refresh') || req.url.endsWith('/auth/login')) {
-          // Refresh neuspešan → logout
-          authService.logout().subscribe();
-          return throwError(() => err);
-        }
-
-        // Pokušaj refresh tokena
+      if (
+        err instanceof HttpErrorResponse &&
+        err.status === 401 &&
+        !shouldSkip
+      ) {
         return authService.refreshToken().pipe(
-          switchMap(() => {
-            // Pokušaj ponovo originalni zahtev
-            return next(req);
-          }),
+          switchMap(() => next(req)),
           catchError((refreshErr) => {
-            // Ako ni refresh nije uspeo → logout
-            authService.logout().subscribe();
+            // Očisti samo stanje, bez dodatnih zahteva!
+            authService.clearSession(); // vidi ispod
             return throwError(() => refreshErr);
           })
         );

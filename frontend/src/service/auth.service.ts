@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../environtment/environment.develop';
-import { BehaviorSubject, catchError, tap, throwError } from 'rxjs';
+import { BehaviorSubject, catchError, switchMap, tap, throwError, of } from 'rxjs';
 import { User } from '../model/user.model';
 
 @Injectable({
@@ -12,46 +12,85 @@ export class AuthService {
   private currentUserSubject = new BehaviorSubject<User | null>(null);
   currentUser$ = this.currentUserSubject.asObservable();
 
+  /**
+   * Login i automatski fetch-uje trenutnog korisnika
+   */
   login(user: any) {
     return this.httpClient
       .post(environment.apiUrl + 'auth/login', user, {
         withCredentials: true,
       })
-      .pipe(tap(() => this.getCurrentUser().subscribe()));
+      .pipe(
+        switchMap(() => this.fetchCurrentUser()) // koristi switchMap, ne subscribe!
+      );
   }
 
+  /**
+   * Registracija novog korisnika
+   */
   register(newUser: any) {
     return this.httpClient.post(environment.apiUrl + 'auth/register', newUser);
   }
 
+  /**
+   * Samo ako vec imamo korisnika u memoriji — vraćamo observable.
+   * Inace: greska.
+   */
   getCurrentUser() {
-    if (this.currentUserSubject.value !== null) {
-      return this.currentUserSubject.asObservable();
+    const user = this.currentUserSubject.value;
+
+    if (user) {
+      return of(user);
     } else {
-      return this.httpClient
-        .get<User>(environment.apiUrl + 'auth/me', { withCredentials: true })
-        .pipe(
-          tap((user: User) => this.currentUserSubject.next(user)),
-          catchError((err) => {
-            this.currentUserSubject.next(null);
-            return throwError(() => err);
-          })
-        );
+      return throwError(() => new Error('User is not authenticated'));
     }
   }
 
-  logout() {
+  /**
+   * Poziva backend za auth/me i postavlja user-a.
+   */
+  fetchCurrentUser() {
     return this.httpClient
-      .post(environment.apiUrl + 'auth/logout', {}, { withCredentials: true })
+      .get<User>(environment.apiUrl + 'auth/me', { withCredentials: true })
       .pipe(
-        tap(() => {
+        tap((user: User) => this.currentUserSubject.next(user)),
+        catchError((err) => {
           this.currentUserSubject.next(null);
+          return throwError(() => err);
         })
       );
   }
 
-  refreshToken() {
+  /**
+   * Logout sa servera + ciscenje local state-a
+   */
+  logout() {
     return this.httpClient
-      .post(`${environment.apiUrl}auth/refresh`, {}, { withCredentials: true });
+      .post(environment.apiUrl + 'auth/logout', {}, { withCredentials: true })
+      .pipe(
+        tap(() => this.clearSession()),
+        catchError((err) => {
+          this.clearSession(); // fallback ako backend baci 401
+          return throwError(() => err);
+        })
+      );
+  }
+
+  /**
+   * Osvjezava token
+   */
+  refreshToken() {
+    return this.httpClient.post(
+      `${environment.apiUrl}auth/refresh`,
+      {},
+      { withCredentials: true }
+    );
+  }
+
+  /**
+   * Ručno ciscenje sesije
+   */
+  clearSession() {
+    this.currentUserSubject.next(null);
   }
 }

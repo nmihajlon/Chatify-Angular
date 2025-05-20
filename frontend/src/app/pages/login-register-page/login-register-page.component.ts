@@ -57,6 +57,5 @@ export class LoginRegisterPageComponent {
 
   togglePosition() {
     this.position = this.position === 'in' ? 'out' : 'in';
-    console.log(this.position);
   }
 }

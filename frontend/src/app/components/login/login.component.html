@@ -4,19 +4,19 @@
   <h1 class="mb-6 font-login-register font-black text-5xl">Login</h1>
   <form class="w-full" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
     <p-floatlabel variant="in" class="mb-3">
-      <input pInputText id="in_label" autocomplete="off" class="w-full" formControlName="username"/>
-      <label for="in_label">Email or username</label>
+      <input pInputText id="username" autocomplete="off" class="w-full" formControlName="username"/>
+      <label for="username">Email or username</label>
     </p-floatlabel>
     <p-floatlabel variant="in" class="mb-3">
       <input
         type="password"
         pInputText
-        id="in_label"
+        id="password"
         autocomplete="off"
         class="w-full"
         formControlName="password"
       />
-      <label for="in_label">Password</label>
+      <label for="password">Password</label>
     </p-floatlabel>
     <div class="mb-3 flex flex-row items-center">
       <p-checkbox inputId="cb" formControlName="rememberMe" [binary]="true"></p-checkbox>
