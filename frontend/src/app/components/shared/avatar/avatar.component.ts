@@ -8,4 +8,8 @@ import { Component, input } from '@angular/core';
 })
 export class AvatarComponent {
   image = input.required<{src: string, alt: string}>();
+  
+  ngOnInit(){
+    console.log(this.image());  
+  }
 }

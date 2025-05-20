@@ -16,13 +16,14 @@ export class ChatHeaderComponent {
   private activatedRoute = inject(ActivatedRoute);
   private chatInfoService = inject(ChatInfoService);
   userId = signal<string | null>('');
-  user = signal<User | null | undefined>(null);
+  selectedUser = signal<User | null | undefined>(null);
 
   ngOnInit(){
     this.activatedRoute.paramMap.subscribe({
       next: (params) => {
         this.userId.set(params.get('userId'));
-        this.user.set(this.userService.getUser(this.userId()));
+        this.selectedUser.set(this.userService.getUser(this.userId()));
+        console.log(this.selectedUser());
       }
     })
   }

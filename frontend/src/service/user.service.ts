@@ -1,11 +1,14 @@
-import { Injectable, signal } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { User } from '../model/user.model';
 import { USERS } from '../mocks/user.mock';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../environtment/environment.develop';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
+  private httpClient = inject(HttpClient);
   private _users = signal<User[]>([]);
   private _selectedUser = signal<User | null>(null);
 
@@ -23,7 +26,14 @@ export class UserService {
   }
 
   loadUsers() {
-    this._users.set(USERS);
+    this.httpClient.get<User[]>(environment.apiUrl + 'users', {withCredentials: true}).subscribe({
+      next: (response : any) => {
+        this._users.set(response.users);
+      },
+      error: (err) => {
+        console.error('Greška pri učitavanju korisnika:', err);
+      }
+    });
   }
 
   setSelectedUser(user: User | null) {

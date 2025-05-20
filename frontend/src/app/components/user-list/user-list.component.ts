@@ -11,4 +11,5 @@ import { UserService } from '../../../service/user.service';
 export class UserListComponent{
   private userService = inject(UserService);
   users = this.userService.users;
+  
 }

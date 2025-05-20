@@ -2,7 +2,7 @@
   <div class="flex flex-row justify-between w-full mb-3">
     <section>
         <div class="relative">
-            <img [src]="'users/'+user()?.avatar" [alt]="user()?.username" class="rounded-full size-10 bg-zinc-300" />
+          <img [src]="selectedUser()?.avatar === '' ?  'users/no-user-avatar.png' : 'users/'+selectedUser()?.avatar" [alt]="selectedUser()?.username" class="rounded-full size-10 bg-zinc-300 object-cover"/>
             <div
               class="absolute bottom-0 right-0 size-3 rounded-full bg-green-400"
             ></div>
@@ -12,7 +12,7 @@
       (click)="openChatInto()"
       class="text-white flex items-center font-semibold select-none cursor-pointer"
       >
-        {{user()?.username}}
+        {{selectedUser()?.username}}
       </section>
       <section class="flex felx-row gap-3 items-center">
         <button class="bg-[#26C282] rounded-full size-8 cursor-pointer"><i class="pi pi-phone text-[#1C2228]"></i></button>

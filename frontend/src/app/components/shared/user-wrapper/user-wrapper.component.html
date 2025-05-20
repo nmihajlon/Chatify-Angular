@@ -6,7 +6,7 @@
 >
   <div class="flex flex-row items-center gap-2">
     <div class="relative">
-      <img [src]="'users/'+user().avatar" [alt]="user().username" class="rounded-full size-10 bg-zinc-300 object-cover"/>
+      <img [src]="user().avatar === '' ?  'users/no-user-avatar.png' : 'users/'+user().avatar" [alt]="user().username" class="rounded-full size-10 bg-zinc-300 object-cover"/>
       <div
         class="absolute bottom-0 right-0 size-3 rounded-full bg-green-400"
       ></div>

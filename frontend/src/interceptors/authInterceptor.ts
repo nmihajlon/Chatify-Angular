@@ -16,14 +16,16 @@ export const authInterceptor: HttpInterceptorFn = (
 
   const excludedUrls = [
     '/auth/refresh',
-    '/auth/logout',
-    '/auth/login',
+    // '/auth/logout',
+    // '/auth/login',
+    // '/auth/me'
   ];
 
   const shouldSkip = excludedUrls.some((url) => req.url.includes(url));
 
   return next(req).pipe(
     catchError((err) => {
+      console.log('Error in interceptor:', err.status, );
       if (
         err instanceof HttpErrorResponse &&
         err.status === 401 &&
@@ -31,11 +33,13 @@ export const authInterceptor: HttpInterceptorFn = (
       ) {
         return authService.refreshToken().pipe(
           switchMap(() => {
-            // ✔️ Nakon uspešnog refresh-a, samo retry originalni zahtev
+            console.log('USOOO Token refreshed successfully');
+            
             return next(req);
           }),
           catchError((refreshErr) => {
-            // ❌ Refresh nije uspeo — briši sesiju i baci grešku
+            console.log('Token not refreshed successfully');
+            console.log(refreshErr);
             authService.clearSession();
             return throwError(() => refreshErr);
           })
