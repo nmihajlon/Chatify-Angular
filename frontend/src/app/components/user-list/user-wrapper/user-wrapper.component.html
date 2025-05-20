@@ -1,6 +1,6 @@
 <!-- [routerLink]="[user()._id]" -->
 <div
-  class="flex flex-row justify-between text-chatify-text rounded-xl relative p-2 m-1 cursor-pointer hover:bg-selected-user"
+  class="flex flex-row justify-between items-center text-chatify-text rounded-xl relative p-2 m-1 cursor-pointer hover:bg-selected-user"
   (click)="addChat()"
   routerLinkActive="bg-selected-user text-white"
 >
@@ -12,9 +12,10 @@
       ></div>
     </div>
     <div class="flex flex-col">
-      <span>{{user().username}}</span>
-      <span>Last message</span>
+      <span class="ml-2">{{user().username}}</span>
     </div>
   </div>
-  <div>14min</div>
+  <div>
+    <button><i class="pi pi-plus"></i></button>
+  </div>
 </div>

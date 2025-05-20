@@ -42,22 +42,6 @@ export class AuthService {
   }
 
   /**
-   * Samo ako vec imamo korisnika u memoriji — vraćamo observable.
-   * Inace: greska.
-   */
-  getCurrentUser() {
-    const user = this.currentUserSubject.value;
-
-    if (user === undefined) {
-      return throwError(() => new Error('User not resolved yet'));
-    } else if (user === null) {
-      return throwError(() => new Error('User is not authenticated'));
-    } else {
-      return of(user);
-    }
-  }
-
-  /**
    * Poziva backend za auth/me i postavlja user-a.
    */
   fetchCurrentUser() {
@@ -81,7 +65,7 @@ export class AuthService {
       .pipe(
         tap(() => this.clearSession()),
         catchError((err) => {
-          this.clearSession(); // fallback ako backend baci 401
+          this.clearSession();
           return throwError(() => err);
         })
       );

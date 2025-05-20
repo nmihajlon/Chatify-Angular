@@ -10,7 +10,7 @@
         </button>
         <app-avatar 
         [image]="{ 
-            src: loggedUser.avatar ? loggedUser.avatar : 'users/no-user-avatar.png', 
+            src: loggedUser!.avatar ? loggedUser!.avatar : 'users/no-user-avatar.png', 
             alt: '' 
         }"> 
         </app-avatar>

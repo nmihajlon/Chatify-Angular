@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, DestroyRef, inject, signal } from '@angular/core';
 import { SidebarComponent } from "../../components/sidebar/sidebar.component";
 import { ActivatedRoute, RouterOutlet } from '@angular/router';
 import { UserService } from '../../../service/user.service';
@@ -18,16 +18,16 @@ export class HomePageComponent {
   private authService = inject(AuthService);
   private activatedRouter = inject(ActivatedRoute);
   private breakPointObserver = inject(BreakpointObserver);
+  private destroyRef = inject(DestroyRef);
   selectedUser = this.userService.selectedUser;
   isMdScreen = signal(false);
   isLgScreen = signal(false);
 
   ngOnInit() {
-
-    this.authService.currentUser$.subscribe({
+    const sub = this.authService.currentUser$.subscribe({
       next: user => {
         if(user === null){
-          this.authService.getCurrentUser().subscribe({});
+          this.authService.currentUser$.subscribe({});
         }
       }
     });
@@ -46,6 +46,11 @@ export class HomePageComponent {
     const userId = childRoute?.snapshot.paramMap.get('userId') ?? null;
     const user = this.userService.getUser(userId);
     this.userService.setSelectedUser(user);
+    
+    
+    this.destroyRef.onDestroy(() => {
+      sub.unsubscribe();
+    })
   }
 
 }

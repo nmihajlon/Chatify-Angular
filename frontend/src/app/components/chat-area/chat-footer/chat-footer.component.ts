@@ -11,12 +11,12 @@ import { FormsModule } from '@angular/forms';
 })
 export class ChatFooterComponent {
   private authService = inject(AuthService);
-  loggedUser! : User;
+  loggedUser! : User | undefined | null;
   selectedUser = input.required<User | null | undefined>();
   message = signal<string>('');
 
   ngOnInit(){
-    this.authService.getCurrentUser().subscribe({
+    this.authService.currentUser$.subscribe({
       next: (user) => {
         this.loggedUser = user;
       }

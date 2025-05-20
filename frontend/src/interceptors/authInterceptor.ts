@@ -16,9 +16,8 @@ export const authInterceptor: HttpInterceptorFn = (
 
   const excludedUrls = [
     '/auth/refresh',
-    // '/auth/logout',
-    // '/auth/login',
-    // '/auth/me'
+    '/auth/logout',
+    '/auth/login',
   ];
 
   const shouldSkip = excludedUrls.some((url) => req.url.includes(url));
