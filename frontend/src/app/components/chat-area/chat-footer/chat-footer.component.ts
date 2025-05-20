@@ -1,16 +1,19 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, input, signal } from '@angular/core';
 import { AuthService } from '../../../../service/auth.service';
 import { User } from '../../../../model/user.model';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-chat-footer',
-  imports: [],
+  imports: [FormsModule],
   templateUrl: './chat-footer.component.html',
   styleUrl: './chat-footer.component.css'
 })
 export class ChatFooterComponent {
   private authService = inject(AuthService);
   loggedUser! : User;
+  selectedUser = input.required<User | null | undefined>();
+  message = signal<string>('');
 
   ngOnInit(){
     this.authService.getCurrentUser().subscribe({
@@ -18,5 +21,11 @@ export class ChatFooterComponent {
         this.loggedUser = user;
       }
     })
+  }
+
+  sendMessage(message: HTMLInputElement){
+    this.message.set(message.value);
+    
+    this.message.set('');
   }
 }

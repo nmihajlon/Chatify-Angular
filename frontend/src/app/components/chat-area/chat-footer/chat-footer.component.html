@@ -1,13 +1,13 @@
 <section class="flex flex-row items-center rounded-md input__background text-zinc-400 px-4 mx-6">
     <div class="flex flex-row items-center flex-1">
         <img [src]="loggedUser.avatar === '' ?  'users/no-user-avatar.png' : loggedUser.avatar" [alt]="loggedUser.avatar" class="rounded-full size-10 bg-zinc-300 object-cover"/>
-        <input type="text" class="w-full focus:outline-none px-4 py-4" placeholder="Type a message here..">
+        <input type="text" class="w-full focus:outline-none px-4 py-4" placeholder="Type a message here.." #message>
     </div>
     <div class="flex flex-row justify-center items-center gap-3">
         <div class="flex flex-row justify-center items-center">
             <button class="size-8 text-zinc-400 cursor-pointer"><i class="pi pi-paperclip"></i></button>
             <button class="size-8 text-zinc-400 cursor-pointer"><i class="pi pi-face-smile"></i></button>
         </div>
-        <button class="bg-[#3F82D2] rounded-full size-10 text-[#131C2F] cursor-pointer"><i class="pi pi-send"></i></button>
+        <button (click)="sendMessage(message)" class="bg-[#3F82D2] rounded-full size-10 text-[#131C2F] cursor-pointer"><i class="pi pi-send"></i></button>
     </div>
 </section>

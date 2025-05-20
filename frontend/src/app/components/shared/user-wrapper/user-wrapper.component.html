@@ -4,7 +4,7 @@
   [routerLink]="[user()._id]"
   routerLinkActive="bg-selected-user text-white"
 >
-  <div class="flex flex-row items-center gap-2">
+  <div class="flex flex-row flex-wrap items-center gap-2">
     <div class="relative">
       <img  [src]="user().avatar === '' ?  'users/no-user-avatar.png' : user().avatar" [alt]="user().username" class="rounded-full size-10 bg-zinc-300 object-cover"/>
       <div
