@@ -44,7 +44,7 @@ export const loginUser = async (req, res) => {
     httpOnly: true,
     secure: false,
     sameSite: "Strict",
-    maxAge: 15 * 60 * 1000,
+    maxAge: 5 * 1000,
   });
 
   if (rememberMe) {
@@ -75,14 +75,15 @@ export const refreshAccessToken = (req, res) => {
       httpOnly: true,
       secure: true,
       sameSite: "Strict",
-      maxAge: 15 * 60 * 1000,
+      maxAge: 5 * 1000,
     });
 
     res.json({ message: "Access token osvežen." });
   } catch (err) {
-    res.status(403).json({ message: "Neispravan refresh token." });
+    res.status(401).json({ message: "Neispravan refresh token." }); // Promenjeno sa 403 na 401
   }
 };
+
 
 export const logoutUser = (req, res) => {
   res

@@ -49,4 +49,9 @@ export class AuthService {
         })
       );
   }
+
+  refreshToken() {
+    return this.httpClient
+      .post(`${environment.apiUrl}auth/refresh`, {}, { withCredentials: true });
+  }
 }

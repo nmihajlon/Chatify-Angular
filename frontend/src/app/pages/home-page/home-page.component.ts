@@ -23,21 +23,24 @@ export class HomePageComponent {
   isLgScreen = signal(false);
 
   ngOnInit() {
-    this.authService.getCurrentUser().subscribe({});
 
     this.authService.currentUser$.subscribe({
-      next: user => console.log(user)
+      next: user => {
+        if(user === null){
+          this.authService.getCurrentUser().subscribe({});
+        }
+      }
     });
     
     this.userService.loadUsers();
   
     this.breakPointObserver.observe(['(max-width: 1023.98px)']).subscribe(result => {
-      console.log('isMdScreen', result.matches);
+      // console.log('isMdScreen', result.matches);
       this.isMdScreen.set(result.matches);
     });
 
     this.breakPointObserver.observe('(min-width: 1024px)').subscribe(result => {
-      console.log('isLgScreen', result.matches);
+      // console.log('isLgScreen', result.matches);
       this.isLgScreen.set(result.matches);
     });
 
