@@ -2,14 +2,14 @@
   <div class="flex flex-row justify-between w-full mb-3">
     <section>
         <div class="relative">
-          <img [src]="selectedUser()?.avatar === '' ?  'users/no-user-avatar.png' : 'users/'+selectedUser()?.avatar" [alt]="selectedUser()?.username" class="rounded-full size-10 bg-zinc-300 object-cover"/>
+          <img [src]="selectedUser()?.avatar === '' ?  'users/no-user-avatar.png' : selectedUser()?.avatar" [alt]="selectedUser()?.username" class="rounded-full size-10 bg-zinc-300 object-cover"/>
             <div
               class="absolute bottom-0 right-0 size-3 rounded-full bg-green-400"
             ></div>
           </div>
       </section>
       <section 
-      (click)="openChatInto()"
+      (click)="openChatInfo()"
       class="text-white flex items-center font-semibold select-none cursor-pointer"
       >
         {{selectedUser()?.username}}

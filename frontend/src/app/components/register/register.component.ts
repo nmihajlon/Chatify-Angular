@@ -40,7 +40,6 @@ export class RegisterComponent {
   });
 
   onSubmit(){
-    console.log(this.registerForm.value);
     let newUser = {
       username: this.registerForm.value.username,
       email: this.registerForm.value.email,

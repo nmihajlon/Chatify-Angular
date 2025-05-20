@@ -8,6 +8,11 @@
         <button class="text-icon-color hover:text-white mt-4 cursor-pointer" (click)="logout()">
             <i class="pi pi-sign-out hover:bg-[#292A2A] p-3 rounded-full transition duration-300"></i>
         </button>
-        <app-avatar [image]="{src: loggedUser.avatar === '' ? 'users/no-user-avatar.png' : 'users/'+ loggedUser.avatar, alt: ''}"></app-avatar>
+        <app-avatar 
+        [image]="{ 
+            src: loggedUser.avatar ? loggedUser.avatar : 'users/no-user-avatar.png', 
+            alt: '' 
+        }"> 
+        </app-avatar>
     </section>
 </section>

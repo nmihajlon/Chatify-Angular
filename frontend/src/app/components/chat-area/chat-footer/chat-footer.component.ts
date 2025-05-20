@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { AuthService } from '../../../../service/auth.service';
+import { User } from '../../../../model/user.model';
 
 @Component({
   selector: 'app-chat-footer',
@@ -7,5 +9,14 @@ import { Component } from '@angular/core';
   styleUrl: './chat-footer.component.css'
 })
 export class ChatFooterComponent {
+  private authService = inject(AuthService);
+  loggedUser! : User;
 
+  ngOnInit(){
+    this.authService.getCurrentUser().subscribe({
+      next: (user) => {
+        this.loggedUser = user;
+      }
+    })
+  }
 }

@@ -19,7 +19,6 @@ export class SidenavComponent {
     this.authService.getCurrentUser().subscribe({
       next: (user) => {
         this.loggedUser = user;
-        console.log(this.loggedUser);
       }
     })
   }

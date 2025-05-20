@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
+import { User } from '../../../../model/user.model';
 
 @Component({
   selector: 'app-chat-body',
@@ -7,5 +8,5 @@ import { Component } from '@angular/core';
   styleUrl: './chat-body.component.css'
 })
 export class ChatBodyComponent {
-
+  selectedUser = input.required<User | null | undefined>();
 }

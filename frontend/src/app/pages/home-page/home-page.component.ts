@@ -35,12 +35,10 @@ export class HomePageComponent {
     this.userService.loadUsers();
   
     this.breakPointObserver.observe(['(max-width: 1023.98px)']).subscribe(result => {
-      // console.log('isMdScreen', result.matches);
       this.isMdScreen.set(result.matches);
     });
 
     this.breakPointObserver.observe('(min-width: 1024px)').subscribe(result => {
-      // console.log('isLgScreen', result.matches);
       this.isLgScreen.set(result.matches);
     });
 

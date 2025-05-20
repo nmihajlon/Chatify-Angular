@@ -13,7 +13,6 @@ export class GuestGuard implements CanActivate {
   canActivate(): Observable<boolean> {
     return this.authService.fetchCurrentUser().pipe(
       map((user) => {
-        console.log('User:', user);
         if (user) {
           this.router.navigate(['/chat']);
           return false;
@@ -21,7 +20,6 @@ export class GuestGuard implements CanActivate {
         return true;
       }),
       catchError(() => {
-        // Ako nije ulogovan ili nije moguće dobiti user-a, dozvoli login
         return of(true);
       })
     );

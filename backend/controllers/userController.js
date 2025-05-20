@@ -22,9 +22,10 @@ export const uploadAvatar = (req, res) => {
   }
 
   const filePath = `/uploads/avatars/${req.file.filename}`;
+  const fullUrl = `${req.protocol}://${req.get('host')}${filePath}`;
 
   res.status(200).json({
     message: "Slika uspešno uploadovana.",
-    imageUrl: filePath,
+    imageUrl: fullUrl,
   });
 };

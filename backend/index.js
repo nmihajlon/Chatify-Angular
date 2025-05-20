@@ -36,5 +36,6 @@ app.listen(PORT, () => {
 
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
+app.use('/uploads', express.static('uploads'));
 // app.use("/api/chats", chatRoutes);
 // app.use("/api/messages", messageRoutes);

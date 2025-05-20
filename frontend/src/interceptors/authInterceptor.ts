@@ -25,7 +25,6 @@ export const authInterceptor: HttpInterceptorFn = (
 
   return next(req).pipe(
     catchError((err) => {
-      console.log('Error in interceptor:', err.status, );
       if (
         err instanceof HttpErrorResponse &&
         err.status === 401 &&
@@ -33,13 +32,9 @@ export const authInterceptor: HttpInterceptorFn = (
       ) {
         return authService.refreshToken().pipe(
           switchMap(() => {
-            console.log('USOOO Token refreshed successfully');
-            
             return next(req);
           }),
           catchError((refreshErr) => {
-            console.log('Token not refreshed successfully');
-            console.log(refreshErr);
             authService.clearSession();
             return throwError(() => refreshErr);
           })

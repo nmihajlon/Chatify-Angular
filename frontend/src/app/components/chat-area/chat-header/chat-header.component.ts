@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, input, OnInit, signal } from '@angular/core';
 import { UserService } from '../../../../service/user.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { User } from '../../../../model/user.model';
@@ -15,25 +15,14 @@ export class ChatHeaderComponent {
   private router = inject(Router);
   private activatedRoute = inject(ActivatedRoute);
   private chatInfoService = inject(ChatInfoService);
-  userId = signal<string | null>('');
-  selectedUser = signal<User | null | undefined>(null);
-
-  ngOnInit(){
-    this.activatedRoute.paramMap.subscribe({
-      next: (params) => {
-        this.userId.set(params.get('userId'));
-        this.selectedUser.set(this.userService.getUser(this.userId()));
-        console.log(this.selectedUser());
-      }
-    })
-  }
+  selectedUser = input.required<User | null | undefined>();
 
   closeChat(){
     this.userService.setSelectedUser(null);
     this.router.navigate(['../'], {relativeTo: this.activatedRoute});
   }
 
-  openChatInto(){
+  openChatInfo(){
     this.chatInfoService.toggleUserInfo();
   }
 }
