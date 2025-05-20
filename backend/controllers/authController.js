@@ -44,7 +44,7 @@ export const loginUser = async (req, res) => {
     httpOnly: true,
     secure: false,
     sameSite: "Strict",
-    maxAge: 5 * 1000,
+    maxAge: 15 * 60 * 1000,
   });
 
   if (rememberMe) {
@@ -75,7 +75,7 @@ export const refreshAccessToken = (req, res) => {
       httpOnly: true,
       secure: true,
       sameSite: "Strict",
-      maxAge: 5 * 1000,
+      maxAge: 15 * 60 * 1000,
     });
 
     res.json({ message: "Access token osvežen." });
