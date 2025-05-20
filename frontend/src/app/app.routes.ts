@@ -30,6 +30,7 @@ export const routes: Routes = [
     },
     {
         path: '**',
-        component: LoginRegisterPageComponent
+        component: LoginRegisterPageComponent,
+        canActivate: [GuestGuard],
     }
 ];

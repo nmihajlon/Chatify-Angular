@@ -11,7 +11,7 @@
     <router-outlet></router-outlet>
     } 
   } @else if(isLgScreen()){
-  <app-sidebar class="relative lg:w-1/6 bg-chatify rounded-xl m-3 p-4" />
+    <app-sidebar class="relative lg:w-1/6 bg-chatify rounded-xl m-3 p-2" />
     @if(selectedUser() === null){
     <app-empty-screen
       class="flex flex-1 items-center justify-center m-3 rounded-xl bg-chatify"
@@ -19,5 +19,5 @@
     } @else {
     <router-outlet></router-outlet>
     } 
-}
+  }
 </section>

@@ -1,5 +1,5 @@
-<section class="py-3 flex flex-col gap-4 h-screen relative overflow-x-hidden">
-  <header class="flex flex-col gap-4">
+<section class="h-full flex flex-col overflow-hidden py-3 gap-4">
+  <header class="flex flex-col gap-4 shrink-0">
     <span
       (click)="navigateHome()"
       class="text-chatify-text font-logo text-5xl monoton-regular select-none"
@@ -9,12 +9,25 @@
     <search-bar></search-bar>
   </header>
 
-  <div class="flex flex-row justify-between text-chatify-text">
-    <div>Chats</div>
-    <div>14</div>
-  </div>
+  <div class="flex flex-col gap-4 flex-grow overflow-hidden">    
+    <section class="flex flex-col flex-1 min-h-0">
+      <div class="flex justify-between text-chatify-text mb-2">
+        <div>Chats</div>
+        <div>14</div>
+      </div>
+      <div class="flex-1 overflow-y-auto">
+        <app-chat-list></app-chat-list>
+      </div>
+    </section>
 
-  <div class="relative flex-1 overflow-y-auto mb-10">
-    <app-user-list></app-user-list>
+    <section class="flex flex-col flex-1 min-h-0">
+      <div class="flex justify-between text-chatify-text mb-2">
+        <div>Users</div>
+        <div>14</div>
+      </div>
+      <div class="flex-1 overflow-y-auto">
+        <app-user-list></app-user-list>
+      </div>
+    </section>
   </div>
 </section>

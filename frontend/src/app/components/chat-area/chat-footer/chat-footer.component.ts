@@ -23,9 +23,7 @@ export class ChatFooterComponent {
     })
   }
 
-  sendMessage(message: HTMLInputElement){
-    this.message.set(message.value);
-    
+  sendMessage(){    
     this.message.set('');
   }
 }
