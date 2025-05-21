@@ -4,10 +4,7 @@ export const getAllUsers = async (req, res) => {
   try {
     const currentUserId = req.user._id;
 
-    const users = await User.find(
-      { _id: { $ne: currentUserId } },
-      "-password"
-    );
+    const users = await User.find({ _id: { $ne: currentUserId } }, "-password");
 
     return res.status(200).json({ users });
   } catch (err) {
@@ -22,7 +19,7 @@ export const uploadAvatar = (req, res) => {
   }
 
   const filePath = `/uploads/avatars/${req.file.filename}`;
-  const fullUrl = `${req.protocol}://${req.get('host')}${filePath}`;
+  const fullUrl = `${req.protocol}://${req.get("host")}${filePath}`;
 
   res.status(200).json({
     message: "Slika uspešno uploadovana.",

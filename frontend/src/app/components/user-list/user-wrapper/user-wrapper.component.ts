@@ -12,5 +12,7 @@ export class UserWrapperComponent {
   user = input.required<User>();
   private userService = inject(UserService);
 
-  addChat() {}
+  addChat() {
+    console.log(this.user());
+  }
 }

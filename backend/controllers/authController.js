@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import User from "../models/User.js";
+import AvailableUsers from "../models/AvailableUsers.js";
 
 const generateAccessToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_ACCESS_SECRET, { expiresIn: "15m" });
@@ -27,6 +28,7 @@ export const registerUser = async (req, res) => {
   });
 
   await newUser.save();
+  await AvailableUsers.create({ user: newUser._id });
   res.status(201).json({ message: "Successfully registered" });
 };
 

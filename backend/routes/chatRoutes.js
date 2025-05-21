@@ -5,7 +5,8 @@ import {
   getUserChats,
   renameGroup,
   addToGroup,
-  removeFromGroup
+  removeFromGroup,
+  getChats
 } from "../controllers/chatController.js";
 import authMiddleware from "../middleware/authMiddleware.js";
 

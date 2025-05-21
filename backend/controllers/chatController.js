@@ -1,3 +1,5 @@
+import AvailableUsers from "../models/AvailableUsers";
+
 export const createPrivateChat = async (req, res) => {
   const { userId } = req.body;
   const loggedInUserId = req.user._id;
@@ -27,6 +29,8 @@ export const createPrivateChat = async (req, res) => {
     "users",
     "-password"
   );
+
+  await AvailableUsers.deleteMany({ user: userId });
 
   return res.status(201).json(fullChat);
 };
