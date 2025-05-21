@@ -1,5 +1,5 @@
 <div
-  [routerLink]="[user()._id]"
+  [routerLink]="[user()!._id]"
   class="flex flex-row justify-between text-chatify-text rounded-xl relative p-2 m-1 cursor-pointer hover:bg-selected-user select-none"
   (click)="selectUser()"
   routerLinkActive="bg-selected-user text-white"
@@ -8,9 +8,9 @@
     <div class="relative">
       <img
         [src]="
-          user().avatar === '' ? 'users/no-user-avatar.png' : user().avatar
+          user()!.avatar === '' ? 'users/no-user-avatar.png' : user()!.avatar
         "
-        [alt]="user().username"
+        [alt]="user()!.username"
         class="rounded-full size-10 bg-zinc-300 object-cover"
       />
       <div
@@ -18,7 +18,7 @@
       ></div>
     </div>
     <div class="flex flex-col">
-      <span>{{ user().username }}</span>
+      <span>{{ user()!.username }}</span>
       <span>Last message</span>
     </div>
   </div>

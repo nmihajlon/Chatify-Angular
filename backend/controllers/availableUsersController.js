@@ -26,7 +26,10 @@ export const getAvailableUsers = async (req, res) => {
     const users = await AvailableUsers.find({
       user: { $ne: req.user._id },
     }).populate("user", "username avatar");
-    res.status(200).json(users.map((entry) => entry.user));
+
+    const filteredUsers = users.filter(entry => entry.user !== null && entry.user !== undefined);
+
+    res.status(200).json(filteredUsers.map((entry) => entry.user));
   } catch (error) {
     res
       .status(500)

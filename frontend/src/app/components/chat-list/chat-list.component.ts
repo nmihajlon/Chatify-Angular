@@ -1,14 +1,23 @@
-import { Component, inject } from '@angular/core';
-import { UserService } from '../../../service/user.service';
+import { Component, inject, signal } from '@angular/core';
 import { ChatWrapperComponent } from "./chat-wrapper/chat-wrapper.component";
+import { ChatService } from '../../../service/chat.service';
+import { Chat } from '../../../model/chat.model';
 
 @Component({
   selector: 'app-chat-list',
-  imports: [  ChatWrapperComponent],
+  imports: [ ChatWrapperComponent ],
   templateUrl: './chat-list.component.html',
   styleUrl: './chat-list.component.css'
 })
 export class ChatListComponent {
-  private userService = inject(UserService);
-  users = this.userService.users;
+  private chatService = inject(ChatService);
+  chats: Chat[] = [];
+
+  ngOnInit(){
+    this.chatService.getChatList().subscribe({
+      next: (response : any) => {
+        this.chats = response;
+      }
+    });
+  }
 }

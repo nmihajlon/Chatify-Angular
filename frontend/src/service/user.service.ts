@@ -22,18 +22,20 @@ export class UserService {
 
   getUser(userId: string | null) {
     if (!userId) return null;
+    console.log(this._users());
     return this._users().find(u => u._id === userId) ?? null;
   }
 
   loadUsers() {
-    this.httpClient.get<User[]>(environment.apiUrl + 'users', {withCredentials: true}).subscribe({
+    this.httpClient.get<User[]>(environment.apiUrl + 'available-users', {withCredentials: true}).subscribe({
       next: (response : any) => {
-        this._users.set(response.users);
+        console.log(response);
+        this._users.set(response);
       },
       error: (err) => {
         console.error('Greška pri učitavanju korisnika:', err);
       }
-    });
+    }); 
   }
 
   setSelectedUser(user: User | null) {

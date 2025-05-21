@@ -6,9 +6,21 @@ import { environment } from '../environtment/environment.develop';
   providedIn: 'root',
 })
 export class ChatService {
-    private httpClient = inject(HttpClient);
-    
-    addChat(){
-        // this.httpClient.post(`${environment.apiUrl}`)
-    }
+  private httpClient = inject(HttpClient);
+
+  getChatList() {
+    return this.httpClient.get(`${environment.apiUrl}chats`, {
+      withCredentials: true,
+    });
+  }
+
+  addChat(selectedUserId: string) {
+    this.httpClient
+      .post(
+        `${environment.apiUrl}chats/private`,
+        { userId: selectedUserId },
+        { withCredentials: true }
+      )
+      .subscribe();
+  }
 }

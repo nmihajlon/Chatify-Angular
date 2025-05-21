@@ -1,4 +1,5 @@
-import AvailableUsers from "../models/AvailableUsers";
+import AvailableUsers from "../models/AvailableUsers.js";
+import Chat from "../models/Chat.js";
 
 export const createPrivateChat = async (req, res) => {
   const { userId } = req.body;

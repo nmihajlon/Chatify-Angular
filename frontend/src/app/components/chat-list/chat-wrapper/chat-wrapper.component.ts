@@ -1,7 +1,9 @@
-import { Component, inject, input } from '@angular/core';
+import { Component, inject, input, signal } from '@angular/core';
 import { UserService } from '../../../../service/user.service';
-import { User } from '../../../../model/user.model';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+import { Chat } from '../../../../model/chat.model';
+import { AuthService } from '../../../../service/auth.service';
+import { User } from '../../../../model/user.model';
 
 @Component({
   selector: 'app-chat-wrapper',
@@ -10,9 +12,20 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
   styleUrl: './chat-wrapper.component.css'
 })
 export class ChatWrapperComponent {
-  user = input.required<User>();
+  chat = input.required<Chat>();
   private userService = inject(UserService);
-
+  private authService = inject(AuthService);
+  user = signal<User | null>(null);
+  
+  ngOnInit(){
+    this.authService.currentUser$.subscribe({
+      next: (user) => {
+        const pom = this.chat().users.filter((chat) => chat._id !== user?._id)
+        this.user.set(pom[0]);
+        console.log(this.user());
+      }
+    });
+  }
 
   selectUser(){
     this.userService.setSelectedUser(this.user());
