@@ -5,6 +5,8 @@ import { ChatFooterComponent } from './chat-footer/chat-footer.component';
 import { ActivatedRoute } from '@angular/router';
 import { User } from '../../../model/user.model';
 import { UserService } from '../../../service/user.service';
+import { ChatService } from '../../../service/chat.service';
+import { Chat } from '../../../model/chat.model';
 
 @Component({
   selector: 'app-chat-area',
@@ -17,15 +19,15 @@ import { UserService } from '../../../service/user.service';
 })
 export class ChatAreaComponent {
   private activatedRoute = inject(ActivatedRoute);
-  private userService = inject(UserService);
-  userId = signal<string | null>('');
+  private chatService = inject(ChatService);
+  chatId = signal<string | null>('');
   selectedUser = signal<User | null | undefined>(null);
 
   ngOnInit(){
     this.activatedRoute.paramMap.subscribe({
       next: (params) => {
-        this.userId.set(params.get('userId'));
-        this.selectedUser.set(this.userService.getUser(this.userId()));
+        this.chatId.set(params.get('userId'));
+        this.selectedUser.set(this.chatService.getSelectedUser(this.chatId()));
       }
     })
   }

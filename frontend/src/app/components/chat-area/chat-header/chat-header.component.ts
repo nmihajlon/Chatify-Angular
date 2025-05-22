@@ -3,6 +3,7 @@ import { UserService } from '../../../../service/user.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { User } from '../../../../model/user.model';
 import { ChatInfoService } from '../../../../service/chat-info.service';
+import { Chat } from '../../../../model/chat.model';
 
 @Component({
   selector: 'app-chat-header',

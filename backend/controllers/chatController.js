@@ -2,8 +2,10 @@ import AvailableList from "../models/AvailableList.js";
 import Chat from "../models/Chat.js";
 
 export const createPrivateChat = async (req, res) => {
-  const { userId } = req.body;          // korisnik sa kojim želimo chat
-  const loggedInUserId = req.user._id; // trenutno prijavljeni korisnik
+  // korisnik sa kojim želimo chat
+  const { userId } = req.body;          
+  // trenutno prijavljeni korisnik
+  const loggedInUserId = req.user._id; 
 
   if (!userId) {
     return res.status(400).json({ message: "User ID is required." });
