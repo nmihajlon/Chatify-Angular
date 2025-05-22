@@ -22,7 +22,6 @@ export class ChatWrapperComponent {
       next: (user) => {
         const pom = this.chat().users.filter((chat) => chat._id !== user?._id)
         this.user.set(pom[0]);
-        console.log(this.user());
       }
     });
   }

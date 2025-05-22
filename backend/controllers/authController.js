@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import User from "../models/User.js";
-import AvailableUsers from "../models/AvailableUsers.js";
+import AvailableList from "../models/AvailableList.js";
 
 const generateAccessToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_ACCESS_SECRET, { expiresIn: "15m" });
@@ -12,8 +12,8 @@ const generateRefreshToken = (id) => {
 };
 
 export const registerUser = async (req, res) => {
-  console.log(req.body);
   const { username, password, email } = req.body;
+
   const existingUser = await User.findOne({ username });
   if (existingUser) {
     return res.status(409).json({ message: "User already exists" });
@@ -28,7 +28,23 @@ export const registerUser = async (req, res) => {
   });
 
   await newUser.save();
-  await AvailableUsers.create({ user: newUser._id });
+
+  const allUsers = await User.find({ _id: { $ne: newUser._id } });
+
+  await AvailableList.create({
+    owner: newUser._id,
+    users: allUsers.map(u => u._id),
+  });
+
+  await Promise.all(
+    allUsers.map(u =>
+      AvailableList.updateOne(
+        { owner: u._id },
+        { $addToSet: { users: newUser._id } }
+      )
+    )
+  );
+
   res.status(201).json({ message: "Successfully registered" });
 };
 

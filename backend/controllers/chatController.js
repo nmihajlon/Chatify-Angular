@@ -1,14 +1,15 @@
-import AvailableUsers from "../models/AvailableUsers.js";
+import AvailableList from "../models/AvailableList.js";
 import Chat from "../models/Chat.js";
 
 export const createPrivateChat = async (req, res) => {
-  const { userId } = req.body;
-  const loggedInUserId = req.user._id;
+  const { userId } = req.body;          // korisnik sa kojim želimo chat
+  const loggedInUserId = req.user._id; // trenutno prijavljeni korisnik
 
   if (!userId) {
     return res.status(400).json({ message: "User ID is required." });
   }
 
+  // Proveri da li već postoji chat između njih dvoje
   let existingChat = await Chat.findOne({
     isGroupChat: false,
     users: { $all: [loggedInUserId, userId], $size: 2 },
@@ -20,6 +21,7 @@ export const createPrivateChat = async (req, res) => {
     return res.status(200).json(existingChat);
   }
 
+  // Kreiraj novi chat
   const newChat = new Chat({
     isGroupChat: false,
     users: [loggedInUserId, userId],
@@ -31,7 +33,18 @@ export const createPrivateChat = async (req, res) => {
     "-password"
   );
 
-  await AvailableUsers.deleteMany({ user: userId });
+  // Sad izbacujemo oba korisnika iz dostupnih listi jedni drugih
+  // 1. Ukloni userId iz dostupnih listi loggedInUserId
+  await AvailableList.updateOne(
+    { owner: loggedInUserId },
+    { $pull: { users: userId } }
+  );
+
+  // 2. Ukloni loggedInUserId iz dostupnih listi userId
+  await AvailableList.updateOne(
+    { owner: userId },
+    { $pull: { users: loggedInUserId.toString() } }
+  );
 
   return res.status(201).json(fullChat);
 };
