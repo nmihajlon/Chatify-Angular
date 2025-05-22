@@ -2,6 +2,7 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import User from "../models/User.js";
 import AvailableList from "../models/AvailableList.js";
+import { getIo } from "../socket.js";
 
 const generateAccessToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_ACCESS_SECRET, { expiresIn: "15m" });
@@ -33,17 +34,22 @@ export const registerUser = async (req, res) => {
 
   await AvailableList.create({
     owner: newUser._id,
-    users: allUsers.map(u => u._id),
+    users: allUsers.map((u) => u._id),
   });
 
   await Promise.all(
-    allUsers.map(u =>
+    allUsers.map((u) =>
       AvailableList.updateOne(
         { owner: u._id },
         { $addToSet: { users: newUser._id } }
       )
     )
   );
+
+  const io = getIo();
+  allUsers.forEach((u) => {
+    io.to(u._id.toString()).emit("availableListUpdated");
+  });
 
   res.status(201).json({ message: "Successfully registered" });
 };
@@ -102,7 +108,6 @@ export const refreshAccessToken = (req, res) => {
   }
 };
 
-
 export const logoutUser = (req, res) => {
   res
     .clearCookie("accessToken")
@@ -113,4 +118,4 @@ export const logoutUser = (req, res) => {
 export const getUser = async (req, res) => {
   const user = await User.findById(req.user.id).select("-password");
   res.json(user);
-}
+};

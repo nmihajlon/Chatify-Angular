@@ -6,6 +6,7 @@ import { BreakpointObserver,Breakpoints  } from '@angular/cdk/layout';
 import { EmptyScreenComponent } from '../../components/empty-screen/empty-screen.component';
 import { SidenavComponent } from "../../components/sidenav/sidenav.component";
 import { AuthService } from '../../../service/auth.service';
+import { SocketService } from '../../../service/socket.service';
 
 @Component({
   selector: 'app-home-page',
@@ -19,6 +20,7 @@ export class HomePageComponent {
   private activatedRouter = inject(ActivatedRoute);
   private breakPointObserver = inject(BreakpointObserver);
   private destroyRef = inject(DestroyRef);
+  private socketService = inject(SocketService);
   selectedUser = this.userService.selectedUser;
   isMdScreen = signal(false);
   isLgScreen = signal(false);
@@ -26,9 +28,12 @@ export class HomePageComponent {
   ngOnInit() {
     const sub = this.authService.currentUser$.subscribe({
       next: user => {
-        if(user === null){
           this.authService.currentUser$.subscribe({});
-        }
+          if(user !== null && user !== undefined) {
+            console.log(user._id);
+            this.socketService.joinRoom(user._id);
+            this.socketService.onAvailableListUpdated().subscribe();
+          }
       }
     });
     
@@ -53,4 +58,7 @@ export class HomePageComponent {
     })
   }
 
+  ngOnDestroy(){
+    this.socketService.disconnect();
+  }
 }

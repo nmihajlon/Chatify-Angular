@@ -1,4 +1,5 @@
 import AvailableList from "../models/AvailableList.js";
+import { getIo } from "../socket.js";
 
 export const addAvailableUser = async (req, res) => {
   const { userIdToAdd } = req.body;
@@ -25,6 +26,9 @@ export const addAvailableUser = async (req, res) => {
 
     availableList.users.push(userIdToAdd);
     await availableList.save();
+
+    const io = getIo();  
+    io.to(ownerId.toString()).emit("availableListUpdated", availableList.users);
 
     return res.status(201).json({ message: "Korisnik dodat u dostupne." });
   } catch (err) {
