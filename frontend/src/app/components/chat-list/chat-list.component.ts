@@ -2,6 +2,8 @@ import { Component, inject, signal } from '@angular/core';
 import { ChatWrapperComponent } from "./chat-wrapper/chat-wrapper.component";
 import { ChatService } from '../../../service/chat.service';
 import { Chat } from '../../../model/chat.model';
+import { SocketService } from '../../../service/socket.service';
+import { takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-chat-list',
@@ -17,6 +19,7 @@ export class ChatListComponent {
     this.chatService.getChatList().subscribe({
       next: (response : any) => {
         this.chats = response;
+        console.log(this.chats);
       }
     });
   }

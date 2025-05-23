@@ -13,9 +13,16 @@
         [alt]="user()!.username"
         class="rounded-full size-10 bg-zinc-300 object-cover"
       />
-      <div
+      @if(user()?.isOnline){
+        <div
         class="absolute bottom-0 right-0 size-3 rounded-full bg-green-400"
       ></div>
+      }
+      @else {
+        <div
+        class="absolute bottom-0 right-0 size-3 rounded-full bg-zinc-400"
+      ></div>
+      }
     </div>
     <div class="flex flex-col">
       <span>{{ user()!.username }}</span>

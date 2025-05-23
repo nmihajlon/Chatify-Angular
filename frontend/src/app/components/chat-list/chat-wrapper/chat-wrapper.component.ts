@@ -4,6 +4,7 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 import { Chat } from '../../../../model/chat.model';
 import { AuthService } from '../../../../service/auth.service';
 import { User } from '../../../../model/user.model';
+import { SocketService } from '../../../../service/socket.service';
 
 @Component({
   selector: 'app-chat-wrapper',
@@ -12,11 +13,13 @@ import { User } from '../../../../model/user.model';
   styleUrl: './chat-wrapper.component.css'
 })
 export class ChatWrapperComponent {
-  chat = input.required<Chat>();
   private userService = inject(UserService);
   private authService = inject(AuthService);
+  private socketService = inject(SocketService);
+
+  chat = input.required<Chat>();
   user = signal<User | null>(null);
-  
+
   ngOnInit(){
     this.authService.currentUser$.subscribe({
       next: (user) => {
@@ -24,10 +27,19 @@ export class ChatWrapperComponent {
         this.user.set(pom[0]);
       }
     });
+
+    this.socketService.onUserStatusChanged()
+          .subscribe(status => {
+            this.user.update((prevUser) => {
+              if (prevUser && prevUser._id === status.userId) {
+                return { ...prevUser, isOnline: status.isOnline };
+              }
+              return prevUser;
+            })
+          });
   }
 
   selectUser(){
     this.userService.setSelectedUser(this.user());
-    // this.router.navigate(['./', this.user().id])
   }
 }
