@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { io, Socket } from 'socket.io-client';
+import { Chat } from '../model/chat.model';
 
 @Injectable({
   providedIn: 'root',
@@ -44,6 +45,15 @@ export class SocketService {
     return new Observable((observer) => {
       this.socket?.on('userStatusChanged', (data) => {
         observer.next(data);
+      });
+    });
+  }
+
+  // Slusa promene dodavanja novog chat-a
+  onChatAdd(): Observable<Chat> {
+    return new Observable((observer) => {
+      this.socket?.on('newChat', (chat: Chat) => {
+        observer.next(chat);
       });
     });
   }

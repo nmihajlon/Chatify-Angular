@@ -51,5 +51,7 @@ export class RegisterComponent {
         this.router.navigate(['/login']);
       }
     });
+
+    this.registerForm.reset();
   }
 }

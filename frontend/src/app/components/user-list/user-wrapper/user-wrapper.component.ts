@@ -1,7 +1,8 @@
 import { Component, inject, input } from '@angular/core';
 import { User } from '../../../../model/user.model';
-import { UserService } from '../../../../service/user.service';
 import { ChatService } from '../../../../service/chat.service';
+import { SocketService } from '../../../../service/socket.service';
+import { takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-user-wrapper',
@@ -11,7 +12,6 @@ import { ChatService } from '../../../../service/chat.service';
 })
 export class UserWrapperComponent {
   user = input.required<User>();
-  private userService = inject(UserService);
   private chatService = inject(ChatService);
 
   addChat() {

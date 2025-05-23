@@ -1,19 +1,24 @@
 import { Component, computed, DestroyRef, inject, signal } from '@angular/core';
-import { SidebarComponent } from "../../components/sidebar/sidebar.component";
+import { SidebarComponent } from '../../components/sidebar/sidebar.component';
 import { ActivatedRoute, RouterOutlet } from '@angular/router';
 import { UserService } from '../../../service/user.service';
-import { BreakpointObserver,Breakpoints  } from '@angular/cdk/layout';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { EmptyScreenComponent } from '../../components/empty-screen/empty-screen.component';
-import { SidenavComponent } from "../../components/sidenav/sidenav.component";
+import { SidenavComponent } from '../../components/sidenav/sidenav.component';
 import { AuthService } from '../../../service/auth.service';
 import { SocketService } from '../../../service/socket.service';
 import { filter, Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-home-page',
-  imports: [SidebarComponent, RouterOutlet, EmptyScreenComponent, SidenavComponent],
+  imports: [
+    SidebarComponent,
+    RouterOutlet,
+    EmptyScreenComponent,
+    SidenavComponent,
+  ],
   templateUrl: './home-page.component.html',
-  styleUrl: './home-page.component.css'
+  styleUrl: './home-page.component.css',
 })
 export class HomePageComponent {
   private userService = inject(UserService);
@@ -33,17 +38,18 @@ export class HomePageComponent {
     this.authService.currentUser$
       .pipe(
         takeUntil(this.destroy$),
-        filter(user => !!user) // osiguraj da je user prisutan
+        filter((user) => !!user) // osiguraj da je user prisutan
       )
-      .subscribe(user => {
+      .subscribe((user) => {
         console.log(user._id);
         this.socketService.joinRoom(user._id);
 
         // Socket listeners
-        this.socketService.onAvailableListUpdated()
+        this.socketService
+          .onAvailableListUpdated()
           .pipe(takeUntil(this.destroy$))
-          .subscribe(users => {
-            console.log('Available:', users);
+          .subscribe(() => {
+            this.userService.loadUsers();
           });
       });
 
@@ -51,15 +57,17 @@ export class HomePageComponent {
     this.userService.loadUsers();
 
     // Breakpoint observer
-    this.breakPointObserver.observe(['(max-width: 1023.98px)'])
+    this.breakPointObserver
+      .observe(['(max-width: 1023.98px)'])
       .pipe(takeUntil(this.destroy$))
-      .subscribe(result => {
+      .subscribe((result) => {
         this.isMdScreen.set(result.matches);
       });
 
-    this.breakPointObserver.observe('(min-width: 1024px)')
+    this.breakPointObserver
+      .observe('(min-width: 1024px)')
       .pipe(takeUntil(this.destroy$))
-      .subscribe(result => {
+      .subscribe((result) => {
         this.isLgScreen.set(result.matches);
       });
 
@@ -76,7 +84,7 @@ export class HomePageComponent {
     });
   }
 
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.socketService.disconnect();
   }
 }

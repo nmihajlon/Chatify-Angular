@@ -1,6 +1,8 @@
 import { Server } from "socket.io";
 import User from "./models/User.js";
 
+let io = null;
+
 export const getIo = () => {
   if (!io) {
     throw new Error("Socket.io not initialized!");
@@ -9,20 +11,17 @@ export const getIo = () => {
 };
 
 export const initSocket = (server) => {
-  const io = new Server(server, {
+  io = new Server(server, {
     cors: { origin: "http://localhost:4200", credentials: true },
   });
 
   io.on("connection", (socket) => {
-    console.log("Korisnik povezan, socket id:", socket.id);
 
     socket.on("joinRoom", async (userId) => {
       if (!userId) {
-        console.log("userId nije prosleđen!");
         return;
       }
 
-      console.log("USER JOINED ROOM:", userId);
       socket.join(userId);
       await User.findByIdAndUpdate(userId, { isOnline: true });
 
@@ -30,8 +29,6 @@ export const initSocket = (server) => {
         userId,
         isOnline: true,
       });
-
-      console.log(`User ${userId} online`);
 
       socket.data.userId = userId;
     });
@@ -50,7 +47,6 @@ export const initSocket = (server) => {
         isOnline: false,
       });
 
-      console.log(`User ${userId} disconnected`);
     });
   });
 

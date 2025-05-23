@@ -1,5 +1,6 @@
 import AvailableList from "../models/AvailableList.js";
 import Chat from "../models/Chat.js";
+import { getIo } from "../socket.js";
 
 export const createPrivateChat = async (req, res) => {
   // korisnik sa kojim želimo chat
@@ -47,6 +48,11 @@ export const createPrivateChat = async (req, res) => {
     { owner: userId },
     { $pull: { users: loggedInUserId.toString() } }
   );
+
+  const io = getIo();
+  io.to(loggedInUserId.toString()).emit('newChat', fullChat);
+  io.to(userId.toString()).emit('newChat', fullChat);
+  console.log(fullChat);
 
   return res.status(201).json(fullChat);
 };
