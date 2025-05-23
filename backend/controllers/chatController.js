@@ -52,7 +52,6 @@ export const createPrivateChat = async (req, res) => {
   const io = getIo();
   io.to(loggedInUserId.toString()).emit('newChat', fullChat);
   io.to(userId.toString()).emit('newChat', fullChat);
-  console.log(fullChat);
 
   return res.status(201).json(fullChat);
 };

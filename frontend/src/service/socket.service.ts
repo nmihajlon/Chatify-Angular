@@ -25,13 +25,13 @@ export class SocketService {
     }
   }
 
-  // Poziva se nakon uspešnog login-a
+  // Poziva se nakon sto se uspesno ulogujem
   joinRoom(userId: string) {
     this.connect(); // pobrini se da je konektovan
     this.socket?.emit('joinRoom', userId);
   }
 
-  // Sluša na ažuriranje dostupnih korisnika
+  // Slusa listu dostupnih korisnika za chat-ovanje
   onAvailableListUpdated(): Observable<string[]> {
     return new Observable((observer) => {
       this.socket?.on('availableListUpdated', (users: string[]) => {
@@ -40,7 +40,7 @@ export class SocketService {
     });
   }
 
-  // Sluša na promene statusa korisnika
+  // Slusa na promene statusa korisnika
   onUserStatusChanged(): Observable<{ userId: string; isOnline: boolean }> {
     return new Observable((observer) => {
       this.socket?.on('userStatusChanged', (data) => {
