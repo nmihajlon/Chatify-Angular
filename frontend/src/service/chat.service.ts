@@ -13,6 +13,10 @@ export class ChatService {
   private _chats = signal<Chat[]>([]);
   private _selectedChat = signal<Chat | null>(null);
 
+  get chats() {
+    return this._chats.asReadonly();
+  }
+
   getSelectedUser(userId: string | null) : User | null {
     if (userId === null) return null;
   

@@ -14,29 +14,25 @@ import { SocketService } from '../../../../service/socket.service';
 })
 export class ChatWrapperComponent {
   private userService = inject(UserService);
-  private authService = inject(AuthService);
   private socketService = inject(SocketService);
 
   chat = input.required<Chat>();
+  loggedUser = input.required<User | null | undefined>();
   user = signal<User | null>(null);
 
   ngOnInit(){
-    this.authService.currentUser$.subscribe({
-      next: (user) => {
-        const pom = this.chat().users.filter((chat) => chat._id !== user?._id)
-        this.user.set(pom[0]);
-      }
-    });
+    const pom = this.chat().users.filter(u => u._id !== this.loggedUser()?._id);
+    this.user.set(pom[0]);
 
-    this.socketService.onUserStatusChanged()
-          .subscribe(status => {
-            this.user.update((prevUser) => {
-              if (prevUser && prevUser._id === status.userId) {
-                return { ...prevUser, isOnline: status.isOnline };
-              }
-              return prevUser;
-            })
-          });
+    // this.socketService.onUserStatusChanged()
+    //       .subscribe(status => {
+    //         this.user.update((prevUser) => {
+    //           if (prevUser && prevUser._id === status.userId) {
+    //             return { ...prevUser, isOnline: status.isOnline };
+    //           }
+    //           return prevUser;
+    //         })
+    //       });
   }
 
   selectUser(){
