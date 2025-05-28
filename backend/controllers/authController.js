@@ -9,7 +9,7 @@ const generateAccessToken = (id) => {
 };
 
 const generateRefreshToken = (id) => {
-  return jwt.sign({ id }, process.env.JWT_REFRESH_SECRET, { expiresIn: "15m" });
+  return jwt.sign({ id }, process.env.JWT_REFRESH_SECRET, { expiresIn: "30d" });
 };
 
 export const registerUser = async (req, res) => {
@@ -71,33 +71,40 @@ export const loginUser = async (req, res) => {
     maxAge: 15 * 60 * 1000,
   });
 
-  if (rememberMe) {
-    const refreshToken = generateRefreshToken(user._id);
+  const refreshToken = generateRefreshToken(user._id);
+  console.log("Pristigli refreshToken:", refreshToken);
 
-    res.cookie("refreshToken", refreshToken, {
-      httpOnly: true,
-      secure: false,
-      sameSite: "Strict",
-      maxAge: 30 * 24 * 60 * 60 * 1000,
-    });
-  }
+  const refreshTokenExpiry = rememberMe
+    ? 30 * 24 * 60 * 60 * 1000 
+    : 15 * 60 * 1000;
+
+  res.cookie("refreshToken", refreshToken, {
+    httpOnly: true,
+    secure: false, // true u produkciji
+    sameSite: "Strict",
+    maxAge: refreshTokenExpiry,
+  });
 
   res.json({ message: "Successfully login" });
 };
 
 export const refreshAccessToken = (req, res) => {
   const refreshToken = req.cookies.refreshToken;
+  console.log("🔐 Primljen refresh token iz cookie-ja:", refreshToken);
+
   if (!refreshToken) {
     return res.status(401).json({ message: "Nema refresh tokena." });
   }
 
   try {
     const decoded = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET);
+    console.log("✅ Refresh token validan. Dekodovan payload:", decoded);
+
     const newAccessToken = generateAccessToken(decoded.id);
 
     res.cookie("accessToken", newAccessToken, {
       httpOnly: true,
-      secure: true,
+      secure: false,
       sameSite: "Strict",
       maxAge: 15 * 60 * 1000,
     });

@@ -5,6 +5,7 @@ import { Chat } from '../../../../model/chat.model';
 import { AuthService } from '../../../../service/auth.service';
 import { User } from '../../../../model/user.model';
 import { SocketService } from '../../../../service/socket.service';
+import { ChatService } from '../../../../service/chat.service';
 
 @Component({
   selector: 'app-chat-wrapper',
@@ -15,12 +16,14 @@ import { SocketService } from '../../../../service/socket.service';
 export class ChatWrapperComponent {
   private userService = inject(UserService);
   private socketService = inject(SocketService);
+  private chatService = inject(ChatService);
 
   chat = input.required<Chat>();
   loggedUser = input.required<User | null | undefined>();
   user = signal<User | null>(null);
 
   ngOnInit(){
+    console.log(this.chat());
     const pom = this.chat().users.filter(u => u._id !== this.loggedUser()?._id);
     this.user.set(pom[0]);
 
@@ -37,5 +40,6 @@ export class ChatWrapperComponent {
 
   selectUser(){
     this.userService.setSelectedUser(this.user());
+    this.chatService.setSelectedChatId(this.chat()._id);
   }
 }

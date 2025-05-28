@@ -12,9 +12,14 @@ export class ChatService {
   private httpClient = inject(HttpClient);
   private _chats = signal<Chat[]>([]);
   private _selectedChat = signal<Chat | null>(null);
+  private _selectedChatId = signal<string | null>(null);
 
   get chats() {
     return this._chats.asReadonly();
+  }
+
+  get selectedChatId() {
+    return this._selectedChatId.asReadonly();
   }
 
   getSelectedUser(userId: string | null) : User | null {
@@ -55,5 +60,9 @@ export class ChatService {
 
   setSelectedChat(user: Chat | null) {
     this._selectedChat.set(user);
+  }
+
+  setSelectedChatId(chatId: string | null) {
+    this._selectedChatId.set(chatId);
   }
 }

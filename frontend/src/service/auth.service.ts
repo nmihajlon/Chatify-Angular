@@ -72,7 +72,7 @@ export class AuthService {
   }
 
   /**
-   * Osvjezava token
+   * Osvezava token
    */
   refreshToken() {
     return this.httpClient.post(

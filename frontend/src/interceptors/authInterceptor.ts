@@ -15,25 +15,25 @@ export const authInterceptor: HttpInterceptorFn = (
   const authService = inject(AuthService);
 
   const excludedUrls = [
-    '/auth/refresh',
-    '/auth/logout',
-    '/auth/login',
+    'auth/refresh',
+    'auth/login',
+    'auth/logout',
   ];
-
   const shouldSkip = excludedUrls.some((url) => req.url.includes(url));
+
+  if (shouldSkip) {
+    return next(req); // 👈 Ne radi ništa za te URL-ove
+  }
 
   return next(req).pipe(
     catchError((err) => {
-      if (
-        err instanceof HttpErrorResponse &&
-        err.status === 401 &&
-        !shouldSkip
-      ) {
+      if (err instanceof HttpErrorResponse && err.status === 401) {
         return authService.refreshToken().pipe(
           switchMap(() => {
-            return next(req);
+            return next(req); // Retry original request
           }),
           catchError((refreshErr) => {
+            console.log('Refresh token failed:', refreshErr);
             authService.clearSession();
             return throwError(() => refreshErr);
           })

@@ -1,19 +1,19 @@
-<section class="w-full h-screen bg-chatify-bg">
-  <div class="flex justify-center items-center h-full">
-    <div
-      class="relative flex flex-row w-[76%] h-[70%] bg-chatify rounded-xl shadow-2xl"
-    >
+<section class="w-full h-screen bg-chatify-bg relative overflow-hidden">
+  <!-- Particles background -->
+  <div id="particles-js" class="absolute inset-0 z-0"></div>
+
+  <!-- Overlay container (main UI) -->
+  <div class="flex justify-center items-center h-full relative z-10">
+    <div class="relative flex flex-row w-[76%] h-[70%] bg-chatify rounded-xl shadow-2xl">
+      <!-- Sliding panel -->
       <div
         [@slideInOut]="position"
-        class="absolute w-[50%] h-full right-0 bg-blue-300 rounded-xl z-1"
+        class="absolute w-[50%] h-full right-0 bg-blue-300 rounded-xl z-20"
       >
         <div class="flex flex-col items-center justify-center h-full">
-          <span
-            class="mb-5 text-chatify-text font-logo text-5xl monoton-regular select-none"
-            >CHATIFY</span
-          >
+          <span class="mb-5 text-chatify-text font-logo text-5xl monoton-regular select-none">CHATIFY</span>
           <h1 class="mb-2 font-login-register font-black text-5xl">
-            {{ position === "in" ? "Welcome Back!" : "Create acount!" }}
+            {{ position === 'in' ? 'Welcome Back!' : 'Create account!' }}
           </h1>
           <button
             (click)="togglePosition()"
@@ -21,15 +21,17 @@
             class="text-white bg-[#050708] transition duration-300 hover:bg-[#050708]/80 focus:ring-4 focus:outline-none focus:ring-[#050708]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:hover:bg-[#050708]/40 dark:focus:ring-gray-600 me-2 mb-2"
           >
             <i class="pi pi-comments pr-1.5"></i>
-            {{ position === "in" ? "Register" : "Login" }}
+            {{ position === 'in' ? 'Register' : 'Login' }}
           </button>
         </div>
       </div>
-      @if(position === "in"){
-        <app-login @fade class="w-[50%] absolute flex flex-col items-center justify-center h-full left-0"></app-login>
+
+      <!-- Forms -->
+      @if(position === 'in') {
+        <app-login @fade class="w-[50%] absolute flex flex-col items-center justify-center h-full left-0 z-30"></app-login>
       }
-      @else{
-        <app-register @fade class="absolute w-[50%] h-full right-0"></app-register>
+      @else {
+        <app-register @fade class="absolute w-[50%] h-full right-0 z-30"></app-register>
       }
     </div>
   </div>

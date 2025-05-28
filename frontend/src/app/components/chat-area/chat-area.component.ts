@@ -4,9 +4,7 @@ import { ChatBodyComponent } from './chat-body/chat-body.component';
 import { ChatFooterComponent } from './chat-footer/chat-footer.component';
 import { ActivatedRoute } from '@angular/router';
 import { User } from '../../../model/user.model';
-import { UserService } from '../../../service/user.service';
 import { ChatService } from '../../../service/chat.service';
-import { Chat } from '../../../model/chat.model';
 
 @Component({
   selector: 'app-chat-area',

@@ -10,6 +10,8 @@ import {
 import { LoginComponent } from "../../components/login/login.component";
 import { RegisterComponent } from "../../components/register/register.component";
 
+declare const particlesJS: any;
+
 @Component({
   selector: 'app-login-register-page',
   imports: [LoginComponent, RegisterComponent],
@@ -57,5 +59,11 @@ export class LoginRegisterPageComponent {
 
   togglePosition() {
     this.position = this.position === 'in' ? 'out' : 'in';
+  }
+
+  ngAfterViewInit(): void {
+    particlesJS.load('particles-js', 'particlesjs.json', () => {
+      console.log('Particles.js loaded.');
+    });
   }
 }
