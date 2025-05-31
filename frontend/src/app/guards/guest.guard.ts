@@ -11,8 +11,8 @@ export class GuestGuard implements CanActivate {
   constructor(private authService: AuthService, private router: Router) {}
 
   canActivate(): Observable<boolean> {
-    return this.authService.fetchCurrentUser().pipe(
-      map((user) => {
+    return this.authService.currentUser$.pipe(
+      map(user => {
         if (user) {
           this.router.navigate(['/chat']);
           return false;
