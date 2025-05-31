@@ -51,7 +51,7 @@ export class AuthService {
         tap((user: User) => this.currentUserSubject.next(user)),
         catchError((err) => {
           this.currentUserSubject.next(null);
-          return throwError(() => err);
+          return of(null);  // vrati Observable sa null, ne error!
         })
       );
   }

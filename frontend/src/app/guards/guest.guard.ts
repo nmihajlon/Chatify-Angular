@@ -17,7 +17,7 @@ export class GuestGuard implements CanActivate {
           this.router.navigate(['/chat']);
           return false;
         }
-        return true;
+      return true;
       }),
       catchError(() => {
         return of(true);
