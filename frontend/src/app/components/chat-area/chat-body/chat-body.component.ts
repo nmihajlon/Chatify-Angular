@@ -14,7 +14,7 @@ export class ChatBodyComponent {
   private messageService = inject(MessageService);
   private chatService = inject(ChatService);
 
-  selectedUser = input.required<User | null | undefined>();
+  loggedUser = input.required<User | null | undefined>();
   messages = signal<Message[] | null>(null);
 
   get chatId() {

@@ -1,10 +1,10 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { ChatHeaderComponent } from "./chat-header/chat-header.component";
 import { ChatBodyComponent } from './chat-body/chat-body.component';
 import { ChatFooterComponent } from './chat-footer/chat-footer.component';
-import { ActivatedRoute } from '@angular/router';
 import { User } from '../../../model/user.model';
 import { ChatService } from '../../../service/chat.service';
+import { AuthService } from '../../../service/auth.service';
 
 @Component({
   selector: 'app-chat-area',
@@ -16,12 +16,31 @@ import { ChatService } from '../../../service/chat.service';
   }
 })
 export class ChatAreaComponent {
-  private activatedRoute = inject(ActivatedRoute);
+  private authService = inject(AuthService);
   chatId = signal<string | null>('');
-  selectedUser = signal<User | null | undefined>(null);
+  loggedUser = signal<User | null | undefined>(null);
+  private chatService = inject(ChatService);
+  chat = this.chatService.getSelectedChat;
+  
+  selectedUser = computed<User | null>(() => {
+    const currentChat = this.chat();
+    if (!currentChat || currentChat.isGroupChat) return null;
+    return currentChat.users[0];
+  });
+  
+  selectedUsers = computed<User[] | null>(() => {
+    const currentChat = this.chat();
+    if (!currentChat || !currentChat.isGroupChat) return null;
+    return currentChat.users;
+  });
+  
 
   ngOnInit(){
-  
+    this.authService.currentUser$.subscribe({
+      next: (user) => {
+        this.loggedUser.set(user);
+      },
+    });
   }
 
 }

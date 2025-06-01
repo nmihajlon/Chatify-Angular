@@ -1,9 +1,7 @@
-import { Component, inject, input, OnInit, signal } from '@angular/core';
-import { UserService } from '../../../../service/user.service';
+import { Component, inject, input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { User } from '../../../../model/user.model';
 import { ChatInfoService } from '../../../../service/chat-info.service';
-import { Chat } from '../../../../model/chat.model';
 
 @Component({
   selector: 'app-chat-header',
@@ -12,10 +10,11 @@ import { Chat } from '../../../../model/chat.model';
   styleUrl: './chat-header.component.css'
 })
 export class ChatHeaderComponent {
-  private userService = inject(UserService);
   private router = inject(Router);
   private activatedRoute = inject(ActivatedRoute);
   private chatInfoService = inject(ChatInfoService);
+  
+  loggedUser = input.required<User | null | undefined>();
   selectedUser = input.required<User | null | undefined>();
 
   closeChat(){
@@ -25,5 +24,9 @@ export class ChatHeaderComponent {
 
   openChatInfo(){
     this.chatInfoService.toggleUserInfo();
+  }
+
+  isArray(value: any): boolean {
+    return Array.isArray(value);
   }
 }

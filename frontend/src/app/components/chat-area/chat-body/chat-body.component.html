@@ -2,7 +2,7 @@
   class="flex flex-col flex-1 rounded-md input__background text-zinc-200 px-6 py-4 mx-6 overflow-y-auto gap-4"
 >
   <div class="flex items-start gap-2 max-w-[70%]">
-    <img [src]="selectedUser()?.avatar === '' ?  'users/no-user-avatar.png' : selectedUser()?.avatar" [alt]="selectedUser()?.username" class="rounded-full size-10 bg-zinc-300 object-cover"/>
+    <img [src]="loggedUser()?.avatar === '' ?  'users/no-user-avatar.png' : loggedUser()?.avatar" [alt]="loggedUser()?.username" class="rounded-full size-10 bg-zinc-300 object-cover"/>
     <div class="bg-zinc-700 rounded-2xl p-3 text-sm leading-relaxed">
       Hey! How's it going? 👋
     </div>
@@ -17,7 +17,7 @@
   </div>
 
   <div class="flex items-start gap-2 max-w-[70%]">
-    <img [src]="selectedUser()?.avatar === '' ?  'users/no-user-avatar.png' : selectedUser()?.avatar" [alt]="selectedUser()?.username" class="rounded-full size-10 bg-zinc-300 object-cover"/>
+    <img [src]="loggedUser()?.avatar === '' ?  'users/no-user-avatar.png' : loggedUser()?.avatar" [alt]="loggedUser()?.username" class="rounded-full size-10 bg-zinc-300 object-cover"/>
     <div class="bg-zinc-700 rounded-2xl p-3 text-sm leading-relaxed">
       That's awesome! Let me know if you need help with routing. 😉
     </div>

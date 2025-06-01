@@ -18,25 +18,15 @@ export class ChatFooterComponent {
   private chatService = inject(ChatService);
   private activatedRoute = inject(ActivatedRoute);
 
-  loggedUser!: User | undefined | null;
+  loggedUser = input.required<User | null | undefined>();
   message = signal<string>('');
   chat = this.chatService.getSelectedChat;
-
-  ngOnInit() {
-    this.authService.currentUser$.subscribe({
-      next: (user) => {
-        this.loggedUser = user;
-      },
-    });
-  } 
 
   sendMessage() {
     const content = this.message();
     const currentChat = this.chat();
 
     if(currentChat === null && !content.trim()) return;
-
-    console.log(this.chat());
 
     if (currentChat!.isGroupChat) {
       console.log('Ovo je grupni chat');
@@ -52,6 +42,5 @@ export class ChatFooterComponent {
         },
       });
     }
-
   }
 }
