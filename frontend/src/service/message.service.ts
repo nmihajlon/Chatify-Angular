@@ -29,11 +29,12 @@ export class MessageService {
       );
   }
 
-  send(chatId: string, content: string): Observable<Message> {
+  send(selectedUserId : string, chatId: string, content: string): Observable<Message> {
+    console.log(selectedUserId, chatId, content);
     return this.httpClient
       .post<Message>(
         `${environment.apiUrl}messages`,
-        { chatId, content },
+        { userId: selectedUserId, chatId, content },
         { withCredentials: true }
       )
       .pipe(

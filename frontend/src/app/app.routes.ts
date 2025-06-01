@@ -17,7 +17,7 @@ export const routes: Routes = [
         canActivate: [AuthGuard],
         children: [
             {
-                path:':userId',
+                path:':chatId',
                 component: ChatPageComponent,
                 canActivate: [AuthGuard]
             }

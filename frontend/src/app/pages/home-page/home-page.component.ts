@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, signal } from '@angular/core';
+import { Component, DestroyRef, effect, inject, signal } from '@angular/core';
 import { SidebarComponent } from '../../components/sidebar/sidebar.component';
 import { ActivatedRoute, RouterOutlet } from '@angular/router';
 import { UserService } from '../../../service/user.service';
@@ -8,6 +8,8 @@ import { SidenavComponent } from '../../components/sidenav/sidenav.component';
 import { AuthService } from '../../../service/auth.service';
 import { SocketService } from '../../../service/socket.service';
 import { filter, Subject, takeUntil } from 'rxjs';
+import { ChatService } from '../../../service/chat.service';
+import { Chat } from '../../../model/chat.model';
 
 @Component({
   selector: 'app-home-page',
@@ -23,17 +25,19 @@ import { filter, Subject, takeUntil } from 'rxjs';
 export class HomePageComponent {
   private userService = inject(UserService);
   private authService = inject(AuthService);
+  private chatService = inject(ChatService);
   private activatedRouter = inject(ActivatedRoute);
   private breakPointObserver = inject(BreakpointObserver);
   private destroyRef = inject(DestroyRef);
   private socketService = inject(SocketService);
   private destroy$ = new Subject<void>();
 
-  selectedUser = this.userService.selectedUser;
+  selectedChat = this.chatService.getSelectedChat;
   isMdScreen = signal(false);
   isLgScreen = signal(false);
 
   ngOnInit() {
+
     this.authService.currentUser$
       .pipe(
         takeUntil(this.destroy$),

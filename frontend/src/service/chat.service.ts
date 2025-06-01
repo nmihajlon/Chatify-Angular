@@ -18,24 +18,12 @@ export class ChatService {
     return this._chats.asReadonly();
   }
 
-  get selectedChatId() {
-    return this._selectedChatId.asReadonly();
+  get getSelectedChat() {
+    return this._selectedChat.asReadonly();
   }
 
-  getSelectedUser(userId: string | null) : User | null {
-    if (userId === null) return null;
-  
-    const chats = this._chats();
-    if (!chats) return null;
-  
-    for (const chat of chats) {
-      const user = chat.users.find((user: User) => user._id === userId);
-      if (user) {
-        return user;
-      }
-    }
-  
-    return null;
+  get selectedChatId() {
+    return this._selectedChatId.asReadonly();
   }
 
   getChatList() {
@@ -43,9 +31,13 @@ export class ChatService {
       .get(`${environment.apiUrl}chats`, {
         withCredentials: true,
       })
-      .pipe(tap({ next: (response : any) => {
-        this._chats.set(response)
-      } }));
+      .pipe(
+        tap({
+          next: (response: any) => {
+            this._chats.set(response);
+          },
+        })
+      );
   }
 
   addChat(selectedUserId: string) {
@@ -58,8 +50,37 @@ export class ChatService {
       .subscribe();
   }
 
-  setSelectedChat(user: Chat | null) {
+  getSelectedUser(userId: string | null): User | null {
+    if (userId === null) return null;
+
+    const chats = this._chats();
+    if (!chats) return null;
+
+    for (const chat of chats) {
+      const user = chat.users.find((user: User) => user._id === userId);
+      if (user) {
+        return user;
+      }
+    }
+
+    return null;
+  }
+
+  getSelectedChatById(chatId: string | null): Chat | null {
+    if (chatId === null) return null;
+
+    const chats = this._chats();
+    if (!chats) return null;
+
+    return chats.find((chat: Chat) => chat._id === chatId) || null;
+  }
+
+  setSelectedUser(user: Chat | null) {
     this._selectedChat.set(user);
+  }
+
+  setSelectedChat(chat: Chat | null) {
+    this._selectedChat.set(chat);
   }
 
   setSelectedChatId(chatId: string | null) {

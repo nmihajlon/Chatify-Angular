@@ -19,7 +19,7 @@ export class ChatHeaderComponent {
   selectedUser = input.required<User | null | undefined>();
 
   closeChat(){
-    this.userService.setSelectedUser(null);
+    // this.userService.setSelectedUser(null);
     this.router.navigate(['../'], {relativeTo: this.activatedRoute});
   }
 

@@ -19,9 +19,9 @@ export class UserService {
     return this._users.asReadonly();
   }
 
-  get selectedUser() {
-    return this._selectedUser.asReadonly();
-  }
+  // get selectedUser() {
+  //   return this._selectedUser.asReadonly();
+  // }
 
   getUser(users: User[], userId: string | null) {
     if (!userId) return null;
@@ -39,7 +39,7 @@ export class UserService {
     })); 
   }
 
-  setSelectedUser(user: User | null) {
-    this._selectedUser.set(user);
-  }
+  // setSelectedUser(user: User | null) {
+  //   this._selectedUser.set(user);
+  // }
 }

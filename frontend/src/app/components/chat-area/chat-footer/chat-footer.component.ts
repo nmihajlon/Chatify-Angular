@@ -3,6 +3,8 @@ import { AuthService } from '../../../../service/auth.service';
 import { User } from '../../../../model/user.model';
 import { FormsModule } from '@angular/forms';
 import { MessageService } from '../../../../service/message.service';
+import { ChatService } from '../../../../service/chat.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-chat-footer',
@@ -13,11 +15,12 @@ import { MessageService } from '../../../../service/message.service';
 export class ChatFooterComponent {
   private authService = inject(AuthService);
   private messageService = inject(MessageService);
+  private chatService = inject(ChatService);
+  private activatedRoute = inject(ActivatedRoute);
 
   loggedUser!: User | undefined | null;
-  selectedUser = input.required<User | null | undefined>();
   message = signal<string>('');
-  chatId = input.required<string | null>();
+  chat = this.chatService.getSelectedChat;
 
   ngOnInit() {
     this.authService.currentUser$.subscribe({
@@ -25,21 +28,30 @@ export class ChatFooterComponent {
         this.loggedUser = user;
       },
     });
-  }
+  } 
 
   sendMessage() {
     const content = this.message();
-    const currentChatId = this.chatId();
+    const currentChat = this.chat();
 
-    if (!content.trim() || !currentChatId) return;
+    if(currentChat === null && !content.trim()) return;
 
-    this.messageService.send(currentChatId, content).subscribe({
-      next: () => {
-        this.message.set('');
-      },
-      error: (err) => {
-        console.error('Greška prilikom slanja poruke:', err);
-      },
-    });
+    console.log(this.chat());
+
+    if (currentChat!.isGroupChat) {
+      console.log('Ovo je grupni chat');
+    } else {
+      const recieverUser = currentChat!.users[0];
+      console.log(recieverUser);
+      this.messageService.send(recieverUser._id, currentChat!._id, content).subscribe({
+        next: () => {
+          this.message.set('');
+        },
+        error: (err) => {
+          console.error('Greška prilikom slanja poruke:', err);
+        },
+      });
+    }
+
   }
 }

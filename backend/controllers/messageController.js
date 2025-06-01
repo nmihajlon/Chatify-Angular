@@ -1,5 +1,6 @@
 import Chat from "../models/Chat.js";
 import Message from "../models/Message.js";
+import { getIo } from '../socket.js';
 
 export const sendMessage = async (req, res) => {
   const { userId, chatId, content } = req.body;

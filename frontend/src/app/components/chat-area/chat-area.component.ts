@@ -17,17 +17,11 @@ import { ChatService } from '../../../service/chat.service';
 })
 export class ChatAreaComponent {
   private activatedRoute = inject(ActivatedRoute);
-  private chatService = inject(ChatService);
   chatId = signal<string | null>('');
   selectedUser = signal<User | null | undefined>(null);
 
   ngOnInit(){
-    this.activatedRoute.paramMap.subscribe({
-      next: (params) => {
-        this.chatId.set(params.get('userId'));
-        this.selectedUser.set(this.chatService.getSelectedUser(this.chatId()));
-      }
-    })
+  
   }
 
 }

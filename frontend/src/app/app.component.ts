@@ -15,8 +15,8 @@ export class AppComponent {
 
   ngOnInit() {
     this.authService.fetchCurrentUser().subscribe({
-      next: user => console.log('User loaded on app start:', user),
-      error: () => console.log('No user logged in on app start'),
+      next: _ => {},
+      error: () => {},
     });
   }
 }

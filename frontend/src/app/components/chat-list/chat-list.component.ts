@@ -1,5 +1,5 @@
 import { Component, DestroyRef, inject, signal } from '@angular/core';
-import { ChatWrapperComponent } from "./chat-wrapper/chat-wrapper.component";
+import { ChatWrapperComponent } from './chat-wrapper/chat-wrapper.component';
 import { ChatService } from '../../../service/chat.service';
 import { Chat } from '../../../model/chat.model';
 import { SocketService } from '../../../service/socket.service';
@@ -10,9 +10,9 @@ import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-chat-list',
-  imports: [ ChatWrapperComponent ],
+  imports: [ChatWrapperComponent],
   templateUrl: './chat-list.component.html',
-  styleUrl: './chat-list.component.css'
+  styleUrl: './chat-list.component.css',
 })
 export class ChatListComponent {
   private chatService = inject(ChatService);
@@ -20,39 +20,52 @@ export class ChatListComponent {
   private userService = inject(UserService);
   private authService = inject(AuthService);
   private activatedRouter = inject(ActivatedRoute);
-  private destroyRef = inject(DestroyRef);  
+  private destroyRef = inject(DestroyRef);
 
-  chats: Chat[] = [];
-  loggedUser = signal<User | null | undefined >(null);
+  chats = signal<Chat[]>([]);
+  selectedChat = signal<Chat | null>(null);
+  loggedUser = signal<User | null | undefined>(null);
 
-  ngOnInit(){
+  ngOnInit() {
     const sub1 = this.authService.currentUser$.subscribe({
-      next: user => {
+      next: (user) => {
         this.loggedUser.set(user);
-      }
-    })
+      },
+    });
 
     const sub2 = this.chatService.getChatList().subscribe({
-      next: (response : any) => {
-        console.log(response);
-        this.chats = response;
-        let users = this.chats.map(chat => chat.users).flat();
-        const childRoute = this.activatedRouter.firstChild;
-        const userId = childRoute?.snapshot.paramMap.get('userId') ?? null;
-        const user = this.userService.getUser(users, userId);
-        this.userService.setSelectedUser(user);
-      }
+      next: (_) => {
+        this.chats.set(this.chatService.chats());
+        console.log(this.chats());
+    
+        if (this.selectedChat() === null) {
+          this.activatedRouter.firstChild?.paramMap.subscribe({
+            next: (params) => {
+              const chatId = params.get('chatId');
+              if (chatId) {
+                const chat = this.chatService.getSelectedChatById(chatId);
+                this.chatService.setSelectedChat(chat);
+                this.selectedChat.set(chat);
+              } else {
+                this.selectedChat.set(null);
+              }
+            },
+          });
+        }
+      },
     });
 
     const sub3 = this.socketService.onChatAdd().subscribe((chat) => {
-      this.chats = [chat, ...this.chats];
+      this.chats.update((prevChats) => {
+        return [...prevChats, chat];
+      });
       this.userService.loadUsers().subscribe();
     });
-    
+
     this.destroyRef.onDestroy(() => {
       sub1.unsubscribe();
       sub2.unsubscribe();
       sub3.unsubscribe();
-    })
+    });
   }
 }

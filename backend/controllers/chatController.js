@@ -4,9 +4,9 @@ import { getIo } from "../socket.js";
 
 export const createPrivateChat = async (req, res) => {
   // korisnik sa kojim želimo chat
-  const { userId } = req.body;          
+  const { userId } = req.body;
   // trenutno prijavljeni korisnik
-  const loggedInUserId = req.user._id; 
+  const loggedInUserId = req.user._id;
 
   if (!userId) {
     return res.status(400).json({ message: "User ID is required." });
@@ -50,15 +50,15 @@ export const createPrivateChat = async (req, res) => {
   );
 
   const io = getIo();
-  io.to(loggedInUserId.toString()).emit('newChat', fullChat);
-  io.to(userId.toString()).emit('newChat', fullChat);
+  io.to(loggedInUserId.toString()).emit("newChat", fullChat);
+  io.to(userId.toString()).emit("newChat", fullChat);
 
   return res.status(201).json(fullChat);
 };
 
 export const getChats = async (req, res) => {
   try {
-    const userId = req.user._id;
+    const userId = req.user._id.toString();
 
     const chats = await Chat.find({
       users: { $in: [userId] },
@@ -75,8 +75,19 @@ export const getChats = async (req, res) => {
       .populate("groupAdmin", "-password")
       .sort({ updatedAt: -1 });
 
-    res.status(200).json(chats);
+    const filteredChats = chats.map((chat) => {
+      const filteredUsers = chat.users.filter(
+        (user) => user._id.toString() !== userId
+      );
+      return {
+        ...chat.toObject(),
+        users: filteredUsers,
+      };
+    });
+
+    res.status(200).json(filteredChats);
   } catch (error) {
     res.status(500).json({ message: "Server error", error });
   }
 };
+
