@@ -36,7 +36,6 @@ export class ChatListComponent {
     const sub2 = this.chatService.getChatList().subscribe({
       next: (_) => {
         this.chats.set(this.chatService.chats());
-        console.log(this.chats());
     
         if (this.selectedChat() === null) {
           this.activatedRouter.firstChild?.paramMap.subscribe({

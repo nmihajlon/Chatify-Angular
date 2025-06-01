@@ -1,33 +1,31 @@
 <section
   class="flex flex-col flex-1 rounded-md input__background text-zinc-200 px-6 py-4 mx-6 overflow-y-auto gap-4"
 >
-  <div class="flex items-start gap-2 max-w-[70%]">
-    <img [src]="loggedUser()?.avatar === '' ?  'users/no-user-avatar.png' : loggedUser()?.avatar" [alt]="loggedUser()?.username" class="rounded-full size-10 bg-zinc-300 object-cover"/>
-    <div class="bg-zinc-700 rounded-2xl p-3 text-sm leading-relaxed">
-      Hey! How's it going? 👋
-    </div>
-  </div>
+  <!-- Provera da li postoje poruke -->
+  <ng-container *ngIf="messages() as msgs">
+    <ng-container *ngFor="let msg of msgs">
+      <!-- Prikaz poruke - outgoing -->
+      <div *ngIf="msg.sender._id === loggedUser()?._id; else incoming" class="flex justify-end">
+        <div
+          class="outgoing__messages text-white rounded-2xl p-3 text-sm leading-relaxed max-w-[70%]"
+        >
+          {{ msg.content }}
+        </div>
+      </div>
 
-  <div class="flex justify-end">
-    <div
-      class="outgoing__messages text-white rounded-2xl p-3 text-sm leading-relaxed max-w-[70%]"
-    >
-      All good! Working on the new Angular signals app 😄
-    </div>
-  </div>
-
-  <div class="flex items-start gap-2 max-w-[70%]">
-    <img [src]="loggedUser()?.avatar === '' ?  'users/no-user-avatar.png' : loggedUser()?.avatar" [alt]="loggedUser()?.username" class="rounded-full size-10 bg-zinc-300 object-cover"/>
-    <div class="bg-zinc-700 rounded-2xl p-3 text-sm leading-relaxed">
-      That's awesome! Let me know if you need help with routing. 😉
-    </div>
-  </div>
-
-  <div class="flex justify-end">
-    <div
-      class="outgoing__messages text-white rounded-2xl p-3 text-sm leading-relaxed max-w-[70%]"
-    >
-      Will do. Thanks a lot! 🙏
-    </div>
-  </div>
+      <!-- Prikaz poruke - incoming -->
+      <ng-template #incoming>
+        <div class="flex items-start gap-2 max-w-[70%]">
+          <img
+            [src]="msg.sender.avatar === '' ? 'users/no-user-avatar.png' : msg.sender.avatar"
+            [alt]="msg.sender.username"
+            class="rounded-full size-10 bg-zinc-300 object-cover"
+          />
+          <div class="bg-zinc-700 rounded-2xl p-3 text-sm leading-relaxed">
+            {{ msg.content }}
+          </div>
+        </div>
+      </ng-template>
+    </ng-container>
+  </ng-container>
 </section>

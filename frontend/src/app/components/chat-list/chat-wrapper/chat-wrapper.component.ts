@@ -25,7 +25,6 @@ export class ChatWrapperComponent {
   loggedUser = signal<User | null | undefined>(null);
 
   ngOnInit() {
-    console.log(this.chat());
     this.authService.currentUser$.subscribe(user => {
       this.loggedUser.set(user);
       this.updateOtherUser();
