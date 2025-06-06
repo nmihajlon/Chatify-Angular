@@ -29,20 +29,24 @@ export class MessageService {
       );
   }
 
-  send(selectedUserId : string, chatId: string, content: string): Observable<Message> {
-    console.log(selectedUserId, chatId, content);
+  send(
+    selectedUserId: string,
+    chatId: string,
+    content: string
+  ): Observable<Message> {
     return this.httpClient
       .post<Message>(
         `${environment.apiUrl}messages`,
         { userId: selectedUserId, chatId, content },
         { withCredentials: true }
       )
-      .pipe(
-        tap({
-          next: (newMessage: Message) => {
-            this._messages.update((prev) => [...prev, newMessage]);
-          },
-        })
-      );
+  }
+
+  addMessage(message: Message) {
+    this._messages.update((messages) => [...messages, message]);
+  }
+
+  clearMessages() {
+    this._messages.set([]);
   }
 }

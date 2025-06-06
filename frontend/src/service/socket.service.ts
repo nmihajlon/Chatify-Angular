@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { io, Socket } from 'socket.io-client';
 import { Chat } from '../model/chat.model';
+import { Message } from '../model/message.model';
 
 @Injectable({
   providedIn: 'root',
@@ -64,5 +65,14 @@ export class SocketService {
       this.socket.disconnect();
       this.socket = null;
     }
+  }
+
+  // Slusa nove poruke
+  onNewMessage(): Observable<Message> {
+    return new Observable((observer) => {
+      this.socket?.on('newMessage', (message: Message) => {
+        observer.next(message);
+      });
+    });
   }
 }

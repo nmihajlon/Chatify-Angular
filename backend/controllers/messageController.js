@@ -29,16 +29,18 @@ export const sendMessage = async (req, res) => {
     content,
     chat: chatId,
   };
-  const newMessage = await Message.create(message);
+  let newMessage = await Message.create(message);
+
+  newMessage = await newMessage.populate("sender", "username avatar");
 
   chat.latestMessage = newMessage._id;
   await chat.save();
 
   const io = getIo();
   chat.users.forEach((user) => {
-    if (user.toString() !== loggedInUserId.toString()) {
+    // if (user.toString() !== loggedInUserId.toString()) {
       io.to(user.toString()).emit("newMessage", newMessage);
-    }
+    // }
   });
 
   res.status(201).json(newMessage);
