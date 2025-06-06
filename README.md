@@ -1,8 +1,10 @@
 # Chatify - Realtime Chat Application
 
-![2025-06-0615-14-16-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/f65c1c09-5625-4d81-b518-e732bfac94be)
-
 Chatify is a modern full-stack chat application built with **Node.js/Express/MongoDB** on the backend and **Angular** on the frontend. It features real-time communication powered by **Socket.IO**, secure authentication, and a sleek UI.
+
+## Login & Register page
+
+![2025-06-0615-14-16-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/f65c1c09-5625-4d81-b518-e732bfac94be)
 
 ## 📁 Project Structure
 
