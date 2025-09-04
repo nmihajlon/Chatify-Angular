@@ -3,7 +3,6 @@ import User from "../models/User.js";
 
 const authMiddleware = async (req, res, next) => {
     const token = req.cookies.accessToken;
-    console.log("Cookies:", req.cookies);
     if(!token){
         return res.status(401).json({message: "Not authenticated"});
     }
