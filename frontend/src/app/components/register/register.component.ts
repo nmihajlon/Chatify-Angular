@@ -4,6 +4,7 @@ import { FloatLabelModule } from 'primeng/floatlabel';
 import { InputTextModule } from 'primeng/inputtext';
 import { AuthService } from '../../../service/auth.service';
 import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 function equalValues(val1: string, val2: string){
   return (control: AbstractControl) => {
@@ -19,7 +20,7 @@ function equalValues(val1: string, val2: string){
 
 @Component({
   selector: 'app-register',
-  imports: [FloatLabelModule, InputTextModule, FormsModule, ReactiveFormsModule],
+  imports: [FloatLabelModule, InputTextModule, FormsModule, ReactiveFormsModule, CommonModule],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
 })

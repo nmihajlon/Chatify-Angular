@@ -3,56 +3,81 @@
 >
   <h1 class="mb-6 font-login-register font-black text-5xl">Register</h1>
   <form class="w-full" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-    <p-floatlabel variant="in" class="mb-3">
+
+  <p-floatlabel variant="in" class="mb-1">
+    <input
+      pInputText
+      id="in_label"
+      autocomplete="off"
+      class="w-full"
+      formControlName="username"
+    />
+    <label for="in_label">Username</label>
+  </p-floatlabel>
+  <div *ngIf="registerForm.get('username')?.invalid && (registerForm.get('username')?.touched || registerForm.get('username')?.dirty)" class="text-red-400 text-sm mb-3">
+    <div *ngIf="registerForm.get('username')?.errors?.['required']">Username is required.</div>
+  </div>
+
+  <p-floatlabel variant="in" class="mb-1">
+    <input
+      pInputText
+      id="in_label2"
+      autocomplete="off"
+      class="w-full"
+      formControlName="email"
+    />
+    <label for="in_label2">Email</label>
+  </p-floatlabel>
+  <div *ngIf="registerForm.get('email')?.invalid && (registerForm.get('email')?.touched || registerForm.get('email')?.dirty)" class="text-red-400 text-sm mb-3">
+    <div *ngIf="registerForm.get('email')?.errors?.['required']">Email is required.</div>
+    <div *ngIf="registerForm.get('email')?.errors?.['email']">Enter a valid email address.</div>
+  </div>
+
+  <div formGroupName="passwords">
+    <p-floatlabel variant="in" class="mb-1">
       <input
+        type="password"
         pInputText
-        id="in_label"
+        id="in_label3"
         autocomplete="off"
         class="w-full"
-        formControlName="username"
+        formControlName="password"
       />
-      <label for="in_label">Username</label>
+      <label for="in_label3">Password</label>
     </p-floatlabel>
-    <p-floatlabel variant="in" class="mb-3">
-      <input
-        pInputText
-        id="in_label2"
-        autocomplete="off"
-        class="w-full"
-        formControlName="email"
-      />
-      <label for="in_label2">Email</label>
-    </p-floatlabel>
-    <div formGroupName="passwords">
-      <p-floatlabel variant="in" class="mb-3">
-        <input
-          type="password"
-          pInputText
-          id="in_label3"
-          autocomplete="off"
-          class="w-full"
-          formControlName="password"
-        />
-        <label for="in_label3">Password</label>
-      </p-floatlabel>
-      <p-floatlabel variant="in" class="mb-3">
-        <input
-          type="password"
-          pInputText
-          id="in_label4"
-          autocomplete="off"
-          class="w-full"
-          formControlName="confirmPassword"
-        />
-        <label for="in_label4">Confirm password</label>
-      </p-floatlabel>
+    <div *ngIf="registerForm.get('passwords.password')?.invalid && (registerForm.get('passwords.password')?.touched || registerForm.get('passwords.password')?.dirty)" class="text-red-400 text-sm mb-3">
+      <div *ngIf="registerForm.get('passwords.password')?.errors?.['required']">Password is required.</div>
+      <div *ngIf="registerForm.get('passwords.password')?.errors?.['minlength']">Password must be at least 6 characters.</div>
     </div>
-    <button
-      type="submit"
-      class="w-full text-white bg-[#050708] transition duration-300 hover:bg-[#050708]/80 focus:ring-4 focus:outline-none focus:ring-[#050708]/50 font-medium rounded-lg text-sm px-5 py-2.5 items-center dark:hover:bg-[#050708]/40 dark:focus:ring-gray-600 me-2 mb-2"
-    >
-      <i class="pi pi-comments pr-1.5"></i>
-      Register
-    </button>
-  </form>
+
+    <p-floatlabel variant="in" class="mb-1">
+      <input
+        type="password"
+        pInputText
+        id="in_label4"
+        autocomplete="off"
+        class="w-full"
+        formControlName="confirmPassword"
+      />
+      <label for="in_label4">Confirm password</label>
+    </p-floatlabel>
+    <div *ngIf="registerForm.get('passwords.confirmPassword')?.invalid && (registerForm.get('passwords.confirmPassword')?.touched || registerForm.get('passwords.confirmPassword')?.dirty)" class="text-red-400 text-sm mb-3">
+      <div *ngIf="registerForm.get('passwords.confirmPassword')?.errors?.['required']">Confirmation is required.</div>
+    </div>
+
+    <div *ngIf="registerForm.get('passwords')?.errors?.['notEqual'] && (registerForm.get('passwords')?.touched || registerForm.get('passwords')?.dirty)" class="text-red-400 text-sm mb-3">
+      Passwords do not match.
+    </div>
+
+  </div>
+
+  <button
+    type="submit"
+    class="w-full text-white bg-[#050708] transition duration-300 hover:bg-[#050708]/80 focus:ring-4 focus:outline-none focus:ring-[#050708]/50 font-medium rounded-lg text-sm px-5 py-2.5 items-center dark:hover:bg-[#050708]/40 dark:focus:ring-gray-600 me-2 mb-2"
+  >
+    <i class="pi pi-comments pr-1.5"></i>
+    Register
+  </button>
+</form>
+
 </section>

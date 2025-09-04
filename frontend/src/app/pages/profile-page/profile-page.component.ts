@@ -3,6 +3,7 @@ import { User } from '../../../model/user.model';
 import { AuthService } from '../../../service/auth.service';
 import { RouterLink } from '@angular/router';
 import { UserService } from '../../../service/user.service';
+import { ChatService } from '../../../service/chat.service';
 
 @Component({
   selector: 'app-profile-page',
@@ -13,10 +14,12 @@ import { UserService } from '../../../service/user.service';
 export class ProfilePageComponent {
   user: User | null | undefined = null;
   userService = inject(UserService);
+  chatService = inject(ChatService);
 
   constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
+    this.chatService.clearSelectedChat();
     this.authService.currentUser$.subscribe({
       next: (user) => {
         this.user = user;
