@@ -11,6 +11,4 @@ import { UserWrapperComponent } from "./user-wrapper/user-wrapper.component";
 export class UserListComponent{
   private userService = inject(UserService);
   users = this.userService.users;
-  
-
 }

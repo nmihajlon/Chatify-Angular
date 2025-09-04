@@ -1,18 +1,19 @@
-<section class="py-5 px-2 h-full flex flex-row justify-between items-center md:flex-col">
+<section class="py-5 px-3 h-full flex flex-row justify-between items-center md:flex-col">
     <div>
         <button class="text-icon-color hover:text-white cursor-pointer">
             <i class="pi pi-comments hover:bg-[#292A2A] p-3 rounded-full transition duration-300"></i>
         </button>   
     </div>
-    <section class="flex flex-row md:flex-col items-center justify-center gap-4 md:border-t-1 border-icon-color">
-        <button class="text-icon-color hover:text-white mt-4 cursor-pointer" (click)="logout()">
+    <section class="flex flex-row md:flex-col items-center justify-center gap-4 md:border-t-1 py-3 border-icon-color">
+        <button class="text-icon-color hover:text-white cursor-pointer" (click)="logout()">
             <i class="pi pi-sign-out hover:bg-[#292A2A] p-3 rounded-full transition duration-300"></i>
         </button>
-        <app-avatar 
+        <app-avatar
+        class="cursor-pointer" 
         [image]="{ 
             src: loggedUser!.avatar ? loggedUser!.avatar : 'users/no-user-avatar.png', 
             alt: '' 
-        }"> 
+        }" routerLink="/profile"> 
         </app-avatar>
     </section>
 </section>

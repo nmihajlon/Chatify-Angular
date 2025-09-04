@@ -2,8 +2,10 @@ import multer from "multer";
 import path from "path";
 import fs from "fs";
 
-const uploadDir = "uploads/avatars";
-if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir);
+const uploadsDir = "uploads";
+const avatarsDir = path.join(uploadsDir, "avatars");
+if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir);
+if (!fs.existsSync(avatarsDir)) fs.mkdirSync(avatarsDir);
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {

@@ -13,7 +13,7 @@
     <section class="flex flex-col min-h-0 max-h-1/2">
       <div class="flex justify-between text-chatify-text mb-2 mx-3">
         <div>Chats</div>
-        <div>14</div>
+        <div>{{ availableChatsCount() }}</div>
       </div>
       <div class="flex-1 overflow-y-auto">
         <app-chat-list></app-chat-list>
@@ -22,8 +22,8 @@
 
     <section class="flex flex-col min-h-0">
       <div class="flex justify-between text-chatify-text mb-2 mx-3">
-        <div>Users</div>
-        <div>14</div>
+        <div>Available users</div>
+        <div>{{ availableUsersCount() }}</div>
       </div>
       <div class="flex-1 overflow-y-auto">
         <app-user-list></app-user-list>

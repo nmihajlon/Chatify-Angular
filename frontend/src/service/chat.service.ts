@@ -26,6 +26,11 @@ export class ChatService {
     return this._selectedChatId.asReadonly();
   }
 
+  clearSelectedChat(){
+    this._selectedChat.set(null);
+    this._selectedChatId.set(null);
+  }
+
   getChatList() {
     return this.httpClient
       .get(`${environment.apiUrl}chats`, {

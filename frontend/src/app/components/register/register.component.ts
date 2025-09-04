@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, EventEmitter, inject, Output } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { InputTextModule } from 'primeng/inputtext';
@@ -26,6 +26,7 @@ function equalValues(val1: string, val2: string){
 export class RegisterComponent {
   private authService = inject(AuthService);
   private router = inject(Router);
+  @Output() registered = new EventEmitter<void>();
 
   registerForm = new FormGroup({
     username: new FormControl('', {validators: [Validators.required]}),
@@ -52,6 +53,7 @@ export class RegisterComponent {
       }
     });
 
+    this.registered.emit();
     this.registerForm.reset();
   }
 }

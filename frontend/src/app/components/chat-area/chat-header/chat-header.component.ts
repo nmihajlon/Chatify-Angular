@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { User } from '../../../../model/user.model';
 import { ChatInfoService } from '../../../../service/chat-info.service';
 import { MessageService } from '../../../../service/message.service';
+import { ChatService } from '../../../../service/chat.service';
 
 @Component({
   selector: 'app-chat-header',
@@ -15,13 +16,15 @@ export class ChatHeaderComponent {
   private activatedRoute = inject(ActivatedRoute);
   private chatInfoService = inject(ChatInfoService);
   private messageService = inject(MessageService);
+  private chatService = inject(ChatService);
   
   loggedUser = input.required<User | null | undefined>();
   selectedUser = input.required<User | null | undefined>();
 
   closeChat(){
-    this.router.navigate(['../'], {relativeTo: this.activatedRoute});
+    this.router.navigate(['/chat'], {relativeTo: this.activatedRoute});
     this.messageService.clearMessages();
+    this.chatService.clearSelectedChat();
   }
 
   openChatInfo(){

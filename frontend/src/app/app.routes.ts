@@ -4,6 +4,7 @@ import { ChatPageComponent } from './pages/chat-page/chat-page.component';
 import { LoginRegisterPageComponent } from './pages/login-register-page/login-register-page.component';
 import { AuthGuard } from './guards/auth.guard';
 import { GuestGuard } from './guards/guest.guard';
+import { ProfilePageComponent } from './pages/profile-page/profile-page.component';
 
 export const routes: Routes = [
     {
@@ -22,6 +23,11 @@ export const routes: Routes = [
                 canActivate: [AuthGuard]
             }
         ]
+    },
+    {
+        path: 'profile',
+        component: ProfilePageComponent,
+        canActivate: [AuthGuard],
     },
     {
         path: 'login',

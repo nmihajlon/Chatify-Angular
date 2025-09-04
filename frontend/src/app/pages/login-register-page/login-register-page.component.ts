@@ -66,4 +66,8 @@ export class LoginRegisterPageComponent {
       console.log('Particles.js loaded.');
     });
   }
+
+  onRegistered() {
+    this.position = 'in';
+  }
 }

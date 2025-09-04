@@ -27,7 +27,7 @@
         <app-login @fade class="w-[50%] absolute flex flex-col items-center justify-center h-full left-0"></app-login>
       }
       @else {
-        <app-register @fade class="absolute w-[50%] h-full right-0 "></app-register>
+        <app-register (registered)="onRegistered()" @fade class="absolute w-[50%] h-full right-0 "></app-register>
       }
     </div>
   </div>
