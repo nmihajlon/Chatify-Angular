@@ -43,8 +43,13 @@ export class MessageService {
   }
 
   addMessage(message: Message) {
-    this._messages.update((messages) => [...messages, message]);
-  }
+  this._messages.update((messages) => {
+    if (messages.some(m => m._id === message._id)) {
+      return messages;
+    }
+    return [...messages, message];
+  });
+}
 
   clearMessages() {
     this._messages.set([]);

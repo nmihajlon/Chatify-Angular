@@ -42,4 +42,12 @@ export class UserService {
   // setSelectedUser(user: User | null) {
   //   this._selectedUser.set(user);
   // }
+
+  uploadAvatar(formData: FormData) {
+    return this.httpClient.post<{ imageUrl: string }>(
+      `${environment.apiUrl}users/upload-avatar`,
+      formData,
+      { withCredentials: true }
+    );
+  }
 }

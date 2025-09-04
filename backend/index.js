@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import http from "http";
+import path from "path";
 
 import authRoutes from "./routes/authRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
@@ -42,7 +43,7 @@ server.listen(PORT, () => {
 
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
-app.use('/uploads', express.static('uploads'));
+app.use('/uploads', express.static(path.resolve('uploads')));
 app.use("/api/chats", chatRoutes);
 app.use("/api/available-users", availableUsersRoutes);
 app.use("/api/messages", messageRoutes);

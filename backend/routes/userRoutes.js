@@ -7,6 +7,6 @@ const router = express.Router();
 
 router.get("/", authMiddleware, getAllUsers);
 // router.patch("/status", authMiddleware, updateOnlineStatus);
-router.post("/upload-avatar", upload.single("avatar"), uploadAvatar);
+router.post("/upload-avatar", authMiddleware, upload.single("avatar"), uploadAvatar);
 
 export default router;

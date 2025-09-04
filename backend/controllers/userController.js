@@ -8,12 +8,12 @@ export const getAllUsers = async (req, res) => {
 
     return res.status(200).json({ users });
   } catch (err) {
-    console.error("Greška pri dohvatanju korisnika:", err);
-    return res.status(500).json({ message: "Greška servera." });
+    console.error("Greska pri dohvatanju korisnika:", err);
+    return res.status(500).json({ message: "Greska servera." });
   }
 };
 
-export const uploadAvatar = (req, res) => {
+export const uploadAvatar = async (req, res) => {
   if (!req.file) {
     return res.status(400).json({ message: "Fajl nije poslat." });
   }
@@ -21,8 +21,17 @@ export const uploadAvatar = (req, res) => {
   const filePath = `/uploads/avatars/${req.file.filename}`;
   const fullUrl = `${req.protocol}://${req.get("host")}${filePath}`;
 
-  res.status(200).json({
-    message: "Slika uspešno uploadovana.",
-    imageUrl: fullUrl,
-  });
+  try {
+    await User.findByIdAndUpdate(req.user._id, {
+      avatar: fullUrl,
+    });
+
+    return res.status(200).json({
+      message: "Slika uspesno uploadovana.",
+      imageUrl: fullUrl,
+    });
+  } catch (err) {
+    console.error("Greska pri cuvanju avatara u bazu:", err);
+    return res.status(500).json({ message: "Greska pri cuvanju avatara." });
+  }
 };

@@ -1,7 +1,7 @@
 <section class="flex flex-row items-center rounded-md input__background text-zinc-400 px-4 mx-6">
     <div class="flex flex-row items-center flex-1">
         <img [src]="loggedUser()?.avatar === '' ?  'users/no-user-avatar.png' : loggedUser()?.avatar" [alt]="loggedUser()?.avatar" class="rounded-full size-10 bg-zinc-300 object-cover"/>
-        <input name="message" type="text" class="w-full focus:outline-none px-4 py-4" placeholder="Type a message here.." [(ngModel)]="message">
+        <input (keydown.enter)="sendMessage()" name="message" type="text" class="w-full focus:outline-none px-4 py-4" placeholder="Type a message here.." [(ngModel)]="message">
     </div>
     <div class="flex flex-row justify-center items-center gap-3">
         <div class="flex flex-row justify-center items-center">

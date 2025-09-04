@@ -2,14 +2,15 @@ import multer from "multer";
 import path from "path";
 import fs from "fs";
 
-const uploadsDir = "uploads";
+const uploadsDir = path.resolve("uploads");
 const avatarsDir = path.join(uploadsDir, "avatars");
-if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir);
-if (!fs.existsSync(avatarsDir)) fs.mkdirSync(avatarsDir);
+
+if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir, { recursive: true });
+if (!fs.existsSync(avatarsDir)) fs.mkdirSync(avatarsDir, { recursive: true });
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, uploadDir);
+    cb(null, avatarsDir);
   },
   filename: function (req, file, cb) {
     const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
