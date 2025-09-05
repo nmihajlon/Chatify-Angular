@@ -16,6 +16,7 @@ export class SidebarComponent {
   private router = inject(Router);
   private chatService = inject(ChatService);
   private userService = inject(UserService);
+  searchTerm = signal<string>('');
 
   ngOnInit(): void {
     this.chatService.getChatList().subscribe({
@@ -35,5 +36,9 @@ export class SidebarComponent {
   navigateHome(){
     this.chatService.setSelectedChat(null);
     this.router.navigate(['']);
+  }
+
+  onSearchChanged(term: string) {
+    this.searchTerm.set(term);
   }
 }

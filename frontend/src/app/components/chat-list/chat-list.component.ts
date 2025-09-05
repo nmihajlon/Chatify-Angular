@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, signal } from '@angular/core';
+import { Component, computed, DestroyRef, inject, Input, Signal, signal } from '@angular/core';
 import { ChatWrapperComponent } from './chat-wrapper/chat-wrapper.component';
 import { ChatService } from '../../../service/chat.service';
 import { Chat } from '../../../model/chat.model';
@@ -21,6 +21,7 @@ export class ChatListComponent {
   private authService = inject(AuthService);
   private activatedRouter = inject(ActivatedRoute);
   private destroyRef = inject(DestroyRef);
+  @Input() searchTerm!: Signal<string>;
 
   chats = signal<Chat[]>([]);
   selectedChat = signal<Chat | null>(null);
@@ -67,4 +68,15 @@ export class ChatListComponent {
       sub3.unsubscribe();
     });
   }
+
+  filteredChats = computed(() => {
+    const term = this.searchTerm().toLowerCase().trim(); // signal se poziva kao funkcija
+    if (!term) return this.chats();
+
+    return this.chats().filter(chat =>
+      chat.users.some(user =>
+        user.username.toLowerCase().includes(term)
+      )
+    );
+  });
 }

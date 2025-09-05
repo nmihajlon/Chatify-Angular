@@ -6,6 +6,8 @@
   <input
     id="search-inp"
     type="text"
+    [(ngModel)]="searchTerm"
+    (input)="onSearchTermChange()"
     placeholder="Search user or chat"
     class="w-full focus:outline-none"
   />

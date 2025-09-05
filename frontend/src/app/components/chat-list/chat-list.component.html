@@ -1,3 +1,3 @@
-@for (chat of chats(); track chat._id) {
+@for (chat of filteredChats(); track chat._id) {
     <app-chat-wrapper [chat]="chat"></app-chat-wrapper>
 }

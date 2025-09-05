@@ -6,17 +6,17 @@
     >
       CHATIFY
     </span>
-    <search-bar></search-bar>
+    <search-bar (searchChanged)="onSearchChanged($event)"></search-bar>
   </header>
 
   <div class="flex flex-col justify-between h-full gap-4 overflow-hidden">    
     <section class="flex flex-col min-h-0 max-h-1/2">
       <div class="flex justify-between text-chatify-text mb-2 mx-3">
-        <div>Chats</div>
+        <div>Chats</div>  
         <div>{{ availableChatsCount() }}</div>
       </div>
       <div class="flex-1 overflow-y-auto">
-        <app-chat-list></app-chat-list>
+        <app-chat-list [searchTerm]="searchTerm"></app-chat-list>
       </div>
     </section>
 
